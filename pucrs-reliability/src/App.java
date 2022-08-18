@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
@@ -8,6 +9,14 @@ public class App {
 
         boolean continuar = true;
 
+        ArrayList<Item> itens=new ArrayList<Item>();
+
+Item mock=new Item(1, "doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", 1);
+itens.add(mock);
+mock= new Item(2, "Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", 1);
+itens.add(mock);
+
+mock=new Item(3, "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", 1);
         while (continuar) {
             Scanner in = new Scanner(System.in);
 
@@ -26,7 +35,7 @@ public class App {
             switch (opt) {
 
                 case 1:
-                    System.out.println("1");
+                    addItem(itens);
                     break;
                 case 2:
                     System.out.println("2");
@@ -57,9 +66,44 @@ public class App {
 
     }
 
-    public static boolean addItem(){
-        
+    public static boolean addItem(ArrayList<Item> itens) {
 
-        return false;
+        Item item = new Item();
+        Scanner in = new Scanner(System.in);
+
+        //o id do novo item sempre será o do ultimo contido no arrayList, acrescido de 1
+        //pois os id se dão de forma crescente a medida que se adiciona novos itens
+        item.setId((itens.get(itens.size()-1).getId())+1);
+
+
+        System.out.println("digite o nome do produto:");
+        item.setNome(in.nextLine());
+
+        System.out.println("digite o tipo do produto:");
+        item.setTipo(in.nextLine());
+
+        System.out.println("digite o peso do produto:");
+        item.setPeso(in.nextFloat());
+
+        System.out.println("digite o volume do produto:");
+        item.setVolume(in.nextFloat());
+
+        System.out.println("digite a quantidade do produto:");
+        item.setQuantidade(in.nextInt());
+
+        //limpa o buffer
+        in.nextLine();
+
+        System.out.println("digite o setor do produto:");
+        item.setSetor(in.nextLine());
+
+        System.out.println("digite a localização do produto:");
+        item.setLocalizacao(in.nextLine());
+
+        itens.add(item);
+
+        System.out.println("item adicionado com sucesso");
+    
+        return true;
     }
 }
