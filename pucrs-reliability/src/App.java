@@ -39,7 +39,7 @@ public class App {
                     addItem(itens);
                     break;
                 case 2:
-                    System.out.println("2");
+                deleteItem(itens);
                     break;
                 case 3:
                     System.out.println("3");
