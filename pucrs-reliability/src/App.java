@@ -10,14 +10,14 @@ public class App {
 
         boolean continuar = true;
 
-        ArrayList<Item> itens=new ArrayList<Item>();
+        ArrayList<Item> itens = new ArrayList<Item>();
 
-Item mock=new Item( "doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", 1);
-itens.add(mock);
-mock= new Item( "Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", 1);
-itens.add(mock);
+        Item mock = new Item("doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", 1);
+        itens.add(mock);
+        mock = new Item("Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", 1);
+        itens.add(mock);
 
-mock=new Item( "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", 1);
+        mock = new Item("Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", 1);
         while (continuar) {
             Scanner in = new Scanner(System.in);
 
@@ -69,40 +69,37 @@ mock=new Item( "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30"
 
     public static void addItem(ArrayList<Item> itens) {
 
-        try{
-        Item item = new Item();
-        Scanner in = new Scanner(System.in);
+        try {
+            Item item = new Item();
+            Scanner in = new Scanner(System.in);
 
-    
+            System.out.println("digite o tipo do produto:");
+            item.setTipo(in.nextLine());
 
-        System.out.println("digite o tipo do produto:");
-        item.setTipo(in.nextLine());
+            System.out.println("digite o peso do produto:");
+            item.setPeso(in.nextFloat());
 
-        System.out.println("digite o peso do produto:");
-        item.setPeso(in.nextFloat());
+            System.out.println("digite o volume do produto:");
+            item.setVolume(in.nextFloat());
 
-        System.out.println("digite o volume do produto:");
-        item.setVolume(in.nextFloat());
+            System.out.println("digite a quantidade do produto:");
+            item.setQuantidade(in.nextInt());
 
-        System.out.println("digite a quantidade do produto:");
-        item.setQuantidade(in.nextInt());
+            // limpa o buffer
+            in.nextLine();
 
-        //limpa o buffer
-        in.nextLine();
+            System.out.println("digite o setor do produto:");
+            item.setSetor(in.nextLine());
 
-        System.out.println("digite o setor do produto:");
-        item.setSetor(in.nextLine());
+            System.out.println("digite a localização do produto:");
+            item.setLocalizacao(in.nextLine());
 
-        System.out.println("digite a localização do produto:");
-        item.setLocalizacao(in.nextLine());
+            itens.add(item);
 
-        itens.add(item);
+            System.out.println("item adicionado com sucesso");
 
-        System.out.println("item adicionado com sucesso");
-    
-        }
-        catch(InputMismatchException erro1){
-            System.out.println("entrada inválida, tente novamente");
+        } catch (InputMismatchException erro) {
+            System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
         }
     }
 }
