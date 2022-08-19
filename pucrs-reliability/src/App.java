@@ -67,8 +67,7 @@ public class App {
 
     }
 
-    public static void addItem(ArrayList<Item> itens) {
-
+    public static Item PopulaCampos(){
         try {
             Item item = new Item();
             Scanner in = new Scanner(System.in);
@@ -93,14 +92,25 @@ public class App {
 
             System.out.println("digite a localização do produto:");
             item.setLocalizacao(in.nextLine());
+                return item;
 
-            itens.add(item);
-
-            System.out.println("item adicionado com sucesso");
 
         } catch (InputMismatchException erro) {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
+            return null;
         }
+
+
+    }
+
+    public static void addItem(ArrayList<Item> itens) {
+     
+            Item item = PopulaCampos();
+
+            if(item!=null){
+            itens.add(item);
+            System.out.println("item adicionado com sucesso");
+            }       
     }
 
     public static int encontraIndice(String nome,ArrayList<Item> itens){
@@ -132,5 +142,32 @@ public class App {
         } catch (InputMismatchException erro) {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
         }
+    }
+    public static void updateItem(ArrayList<Item> itens) {
+
+        
+            Scanner in = new Scanner(System.in);
+
+            System.out.println("digite o nome do produto que deseja remover:");
+            String nome=in.nextLine();
+            int indiceElemento=encontraIndice(nome,itens);
+
+            if(indiceElemento==-1){
+                System.out.println("não foi encontrado nenhum item com este nome");
+                return;
+            }
+
+            System.out.println("item Selecionado:" + itens.get(indiceElemento).getNome());
+            System.out.println("digite abaixo os campos com os valores atualizados");
+            Item item=PopulaCampos();
+
+            if(item!=null){
+                itens.set(indiceElemento, item);
+            System.out.println("item atualizado com sucesso");
+            return;
+            }
+            System.out.println("não foi possivel atualizar o item desejado");
+          
+         
     }
 }
