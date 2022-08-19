@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
@@ -11,12 +12,12 @@ public class App {
 
         ArrayList<Item> itens=new ArrayList<Item>();
 
-Item mock=new Item(1, "doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", 1);
+Item mock=new Item( "doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", 1);
 itens.add(mock);
-mock= new Item(2, "Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", 1);
+mock= new Item( "Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", 1);
 itens.add(mock);
 
-mock=new Item(3, "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", 1);
+mock=new Item( "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", 1);
         while (continuar) {
             Scanner in = new Scanner(System.in);
 
@@ -68,16 +69,11 @@ mock=new Item(3, "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "3
 
     public static boolean addItem(ArrayList<Item> itens) {
 
+        try{
         Item item = new Item();
         Scanner in = new Scanner(System.in);
 
-        //o id do novo item sempre será o do ultimo contido no arrayList, acrescido de 1
-        //pois os id se dão de forma crescente a medida que se adiciona novos itens
-        item.setId((itens.get(itens.size()-1).getId())+1);
-
-
-        System.out.println("digite o nome do produto:");
-        item.setNome(in.nextLine());
+    
 
         System.out.println("digite o tipo do produto:");
         item.setTipo(in.nextLine());
@@ -105,5 +101,10 @@ mock=new Item(3, "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "3
         System.out.println("item adicionado com sucesso");
     
         return true;
+        }
+        catch(InputMismatchException erro1){
+            System.out.println("entrada inválida, tente novamente");
+            return false;
+        }
     }
 }

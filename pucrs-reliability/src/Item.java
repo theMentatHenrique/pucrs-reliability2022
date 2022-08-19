@@ -1,5 +1,4 @@
 public class Item {
-    private int id;// chave primaria
     private String nome;
     private String tipo;
     private float peso;
@@ -11,7 +10,7 @@ public class Item {
 
     //construtor sem parametro com valores invalidos 
     public Item() {
-        this.id = -1;
+        
         this.nome = "";
         this.tipo = "";
         this.peso = -1;
@@ -24,9 +23,8 @@ public class Item {
     }
 
     //construtor com parametros
-    public Item( int id,String nome,String tipo,float peso, float volume, int quantidade, String setor, 
+    public Item( String nome,String tipo,float peso, float volume, int quantidade, String setor, 
     String localizacao,int idPrateleira){
-        this.id=id;
         this.nome=nome;
         this.tipo=tipo;
         this.peso=peso;
@@ -38,10 +36,6 @@ public class Item {
 
     }
 
-    // getters
-    public int getId() {
-        return id;
-    }
 
     public int getIdPrateleira() {
         return idPrateleira;
@@ -76,9 +70,7 @@ public class Item {
     }
 
     // setters
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 
     public void setIdPrateleira(int idPrateleira) {
         this.idPrateleira = idPrateleira;
