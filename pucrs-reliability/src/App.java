@@ -102,4 +102,35 @@ public class App {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
         }
     }
+
+    public static int encontraIndice(String nome,ArrayList<Item> itens){
+
+        for(int i=0;i<itens.size();i++){
+            if(itens.get(i).getNome().equals(nome))return i;
+        }
+
+
+            return -1;
+    }
+    public static void deleteItem(ArrayList<Item> itens) {
+
+        try {
+            Scanner in = new Scanner(System.in);
+
+            System.out.println("digite o nome do produto que deseja remover:");
+            String nome=in.nextLine();
+            int indiceElemento=encontraIndice(nome,itens);
+
+            if(indiceElemento==-1){
+                System.out.println("não foi encontrado nenhum item com este nome");
+                return;
+            }
+
+            itens.remove(indiceElemento);
+            System.out.println("item removido com sucesso");
+          
+        } catch (InputMismatchException erro) {
+            System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
+        }
+    }
 }
