@@ -67,7 +67,7 @@ mock=new Item( "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30"
 
     }
 
-    public static boolean addItem(ArrayList<Item> itens) {
+    public static void addItem(ArrayList<Item> itens) {
 
         try{
         Item item = new Item();
@@ -100,11 +100,9 @@ mock=new Item( "Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30"
 
         System.out.println("item adicionado com sucesso");
     
-        return true;
         }
         catch(InputMismatchException erro1){
             System.out.println("entrada inválida, tente novamente");
-            return false;
         }
     }
 }
