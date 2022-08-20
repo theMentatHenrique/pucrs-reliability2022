@@ -1,6 +1,6 @@
 
 public class Prateleira {
-    private int idPrateleira;//chave primaria
+    private String nomePrateleira;//chave primaria
     private String setor;
     private float capMaxPeso;
     private float capMaxVolume;
@@ -9,7 +9,7 @@ public class Prateleira {
 
     //construtor sem parametros com valores invalidos
     public Prateleira() {
-        this.idPrateleira = -1;
+        this.nomePrateleira ="";
         this.setor = "";
         this.capMaxPeso = 0;
         this.capMaxVolume = 0;
@@ -18,8 +18,8 @@ public class Prateleira {
 
     //construtor com parametros 
 
-    public Prateleira(int idPrateleira,String setor,float capMaxPeso,float capMaxVolume){
-        this.idPrateleira=idPrateleira;
+    public Prateleira(String nomePrateleira,String setor,float capMaxPeso,float capMaxVolume){
+        this.nomePrateleira=nomePrateleira;
         this.setor=setor;
         this.capMaxPeso=capMaxPeso;
         this.capMaxVolume=capMaxVolume;
@@ -36,8 +36,8 @@ public class Prateleira {
         return capMaxVolume;
     }
 
-    public int getIdPrateleira() {
-        return idPrateleira;
+    public String getIdPrateleira() {
+        return nomePrateleira;
     }
 
     public String getSetor() {
@@ -53,8 +53,8 @@ public class Prateleira {
         this.capMaxVolume = capMaxVolume;
     }
 
-    public void setIdPrateleira(int idPrateleira) {
-        this.idPrateleira = idPrateleira;
+    public void setIdPrateleira(String nomePrateleira) {
+        this.nomePrateleira = nomePrateleira;
     }
 
     public void setSetor(String setor) {
