@@ -6,7 +6,7 @@ public class Item {
     private int quantidade;
     private String setor;
     private String localizacao;
-    private int idPrateleira;// chave estrangeira com referencia a chave primaria da tabela prateleira
+    private String nomePrateleira;// chave estrangeira com referencia a chave primaria da tabela prateleira
 
     //construtor sem parametro com valores invalidos 
     public Item() {
@@ -18,13 +18,13 @@ public class Item {
         this.quantidade = 0;
         this.setor = "";
         this.localizacao = "";
-        this.idPrateleira = -1;
+        this.nomePrateleira ="";
 
     }
 
     //construtor com parametros
     public Item( String nome,String tipo,float peso, float volume, int quantidade, String setor, 
-    String localizacao,int idPrateleira){
+    String localizacao,String nomePrateleira){
         this.nome=nome;
         this.tipo=tipo;
         this.peso=peso;
@@ -32,13 +32,13 @@ public class Item {
         this.quantidade=quantidade;
         this.setor=setor;
         this.localizacao=localizacao;
-        this.idPrateleira=idPrateleira;
+        this.nomePrateleira=nomePrateleira;
 
     }
 
 
-    public int getIdPrateleira() {
-        return idPrateleira;
+    public String getNomePraTeleira() {
+        return nomePrateleira;
     }
 
     public String getLocalizacao() {
@@ -72,8 +72,8 @@ public class Item {
     // setters
     
 
-    public void setIdPrateleira(int idPrateleira) {
-        this.idPrateleira = idPrateleira;
+    public void setIdPrateleira(String nomePrateleira) {
+        this.nomePrateleira = nomePrateleira;
     }
 
     public void setLocalizacao(String localizacao) {

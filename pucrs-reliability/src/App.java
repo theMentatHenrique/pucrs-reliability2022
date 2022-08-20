@@ -12,12 +12,12 @@ public class App {
 
         ArrayList<Item> itens = new ArrayList<Item>();
 
-        Item mock = new Item("doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", 1);
+        Item mock = new Item("doritos", "gulouseima", 100.5f, 200.0f, 100, "Gulouseimas", "20", "1");
         itens.add(mock);
-        mock = new Item("Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", 1);
+        mock = new Item("Ruffles", "gulouseima", 100.5f, 205.0f, 300, "Gulouseimas", "10", "1");
         itens.add(mock);
 
-        mock = new Item("Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", 1);
+        mock = new Item("Pringles", "gulouseima", 190.5f, 300.0f, 50, "Gulouseimas", "30", "1");
         while (continuar) {
             Scanner in = new Scanner(System.in);
 
@@ -39,7 +39,7 @@ public class App {
                     addItem(itens);
                     break;
                 case 2:
-                deleteItem(itens);
+                    deleteItem(itens);
                     break;
                 case 3:
                     System.out.println("3");
@@ -67,7 +67,7 @@ public class App {
 
     }
 
-    public static Item PopulaCampos(){
+    public static Item PopulaCampos() {
         try {
             Item item = new Item();
             Scanner in = new Scanner(System.in);
@@ -92,82 +92,126 @@ public class App {
 
             System.out.println("digite a localização do produto:");
             item.setLocalizacao(in.nextLine());
-                return item;
-
+            return item;
 
         } catch (InputMismatchException erro) {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
             return null;
         }
 
-
     }
 
     public static void addItem(ArrayList<Item> itens) {
-     
-            Item item = PopulaCampos();
 
-            if(item!=null){
+        Item item = PopulaCampos();
+
+        if (item != null) {
             itens.add(item);
             System.out.println("item adicionado com sucesso");
-            }       
+        }
     }
 
-    public static int encontraIndice(String nome,ArrayList<Item> itens){
+    public static int encontraIndice(String nome, ArrayList<Item> itens) {
 
-        for(int i=0;i<itens.size();i++){
-            if(itens.get(i).getNome().equals(nome))return i;
+        for (int i = 0; i < itens.size(); i++) {
+            if (itens.get(i).getNome().equals(nome))
+                return i;
         }
 
-
-            return -1;
+        return -1;
     }
+
     public static void deleteItem(ArrayList<Item> itens) {
 
         try {
             Scanner in = new Scanner(System.in);
 
             System.out.println("digite o nome do produto que deseja remover:");
-            String nome=in.nextLine();
-            int indiceElemento=encontraIndice(nome,itens);
+            String nome = in.nextLine();
+            int indiceElemento = encontraIndice(nome, itens);
 
-            if(indiceElemento==-1){
+            if (indiceElemento == -1) {
                 System.out.println("não foi encontrado nenhum item com este nome");
                 return;
             }
 
             itens.remove(indiceElemento);
             System.out.println("item removido com sucesso");
-          
+
         } catch (InputMismatchException erro) {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
         }
     }
+
     public static void updateItem(ArrayList<Item> itens) {
 
-        
-            Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
 
-            System.out.println("digite o nome do produto que deseja remover:");
-            String nome=in.nextLine();
-            int indiceElemento=encontraIndice(nome,itens);
+        System.out.println("digite o nome do produto que deseja remover:");
+        String nome = in.nextLine();
+        int indiceElemento = encontraIndice(nome, itens);
 
-            if(indiceElemento==-1){
-                System.out.println("não foi encontrado nenhum item com este nome");
-                return;
-            }
+        if (indiceElemento == -1) {
+            System.out.println("não foi encontrado nenhum item com este nome");
+            return;
+        }
 
-            System.out.println("item Selecionado:" + itens.get(indiceElemento).getNome());
-            System.out.println("digite abaixo os campos com os valores atualizados");
-            Item item=PopulaCampos();
+        System.out.println("item Selecionado:" + itens.get(indiceElemento).getNome());
+        System.out.println("digite abaixo os campos com os valores atualizados");
+        Item item = PopulaCampos();
 
-            if(item!=null){
-                itens.set(indiceElemento, item);
+        if (item != null) {
+            itens.set(indiceElemento, item);
             System.out.println("item atualizado com sucesso");
             return;
-            }
-            System.out.println("não foi possivel atualizar o item desejado");
-          
-         
+        }
+        System.out.println("não foi possivel atualizar o item desejado");
     }
+
+    public void imprimeItem(Item item) {
+        System.out.println("Nome:" + item.getNome());
+        System.out.println("Tipo:" + item.getTipo());
+        System.out.println("Peso:" + item.getPeso());
+        System.out.println("Volume:" + item.getVolume());
+        System.out.println("Quantidade:" + item.getQuantidade());
+        System.out.println("Setor:" + item.getSetor());
+        System.out.println("Localização na prateleira:" + item.getLocalizacao());
+
+    }
+
+    public void listItens(ArrayList<Item> itens) {
+
+        for (int i = 0; i < itens.size(); i++) {
+            imprimeItem(itens.get(i));
+        }
+    }
+
+    public void consultarPorSetor(ArrayList<Item> itens) {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("digite o nome do setor do produto:");
+        String filtroSeetor = in.nextLine();
+
+        for (int i = 0; i < itens.size(); i++) {
+            if (itens.get(i).getSetor().equals(filtroSeetor.trim())) {
+                imprimeItem(itens.get(i));
+            }
+        }
+
+    }
+
+    public void consultaPorPrateleira(ArrayList<Item> itens) {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("digite o nome da prateleira:");
+        String filtroPrateleira = in.nextLine();
+
+        for (int i = 0; i < itens.size(); i++) {
+            if (itens.get(i).getNomePraTeleira().equals(filtroPrateleira.trim())) {
+                imprimeItem(itens.get(i));
+            }
+        }
+
+    }
+
 }
