@@ -12,24 +12,28 @@ public class App {
 
 
         Prateleira prateleira=new Prateleira("1A","gulouseimas",100f,100f);
-        Item mock = new Item("doritos", "Salgadinho", 100.5f, 200.0f, 100, "Gulouseimas", "20");
+        Item mock = new Item("doritos", Tipo.SALGADINHOS, 100.5f, 200.0f, 100, "Gulouseimas", "20");
         prateleira.addItem(mock);
-        mock = new Item("Ruffles", "Salgadinho", 100.5f, 205.0f, 300, "Gulouseimas", "10");
+        mock = new Item("Ruffles",  Tipo.SALGADINHOS, 100.5f, 205.0f, 300, "Gulouseimas", "10");
         prateleira.addItem(mock);
-        mock = new Item("Pringles", "Salgadinho", 190.5f, 300.0f, 50, "Gulouseimas", "30");
+        mock = new Item("Pringles",  Tipo.SALGADINHOS, 190.5f, 300.0f, 50, "Gulouseimas", "30");
         prateleira.addItem(mock);
 
         prateleiras.add(prateleira);
         
          prateleira=new Prateleira("1B","Higiene",10,100);
-         mock = new Item("Lava-louça", "Detergente", 5.5f, 5.0f, 10, "Higiene", "5-andar");
+         mock = new Item("Lava-louça", Tipo.SALGADINHOS, 5.5f, 5.0f, 10, "Higiene", "5-andar");
         prateleira.addItem(mock);
-        mock = new Item("Ruffles", "Salgadinho", 100.5f, 205.0f, 300, "Gulouseimas", "10");
+        mock = new Item("Ruffles", Tipo.SALGADINHOS, 100.5f, 205.0f, 300, "Gulouseimas", "10");
         prateleira.addItem(mock);
-        mock = new Item("Pringles", "Salgadinho", 190.5f, 300.0f, 50, "Gulouseimas", "30");
+        mock = new Item("Pringles", Tipo.SALGADINHOS, 190.5f, 300.0f, 50, "Gulouseimas", "30");
         prateleira.addItem(mock);
 
-  
+        Scanner in = new Scanner(System.in);
+        int opt = in.nextInt();
+
+
+        
 
 
 
@@ -163,7 +167,14 @@ public class App {
             item.setNome(in.nextLine());
 
             System.out.println("digite o tipo do produto:");
-            item.setTipo(in.nextLine());
+            int tipo=in.nextInt();
+            if(tipo>0 && tipo<10){
+            item.setTipo(in.nextInt());
+            }
+            else{
+                System.out.println("entrada invalida, tente novamente com uma entrada valida");
+                return null;
+            }
 
             System.out.println("digite o peso do produto com a unidade de medida:");
             item.setPeso(convertValorPeso((in.nextLine()).toUpperCase()));
@@ -172,7 +183,14 @@ public class App {
             item.setVolume(convertValorVolume((in.nextLine()).toUpperCase()));
 
             System.out.println("digite a quantidade do produto:");
-            item.setQuantidade(in.nextInt());
+            int quantidade=in.nextInt();
+            if(quantidade>0){
+            item.setQuantidade(quantidade);
+            }
+            else{
+                System.out.println("entrada invalida, tente novamente com uma entrada valida");
+                return null;
+            }
 
             // limpa o buffer
             in.nextLine();

@@ -1,6 +1,6 @@
 public class Item {
     private String nome;
-    private String tipo;
+    private Tipo tipo;
     private float peso;
     private float volume;
     private int quantidade;
@@ -11,7 +11,7 @@ public class Item {
     public Item() {
         
         this.nome = "";
-        this.tipo = "";
+        this.tipo = null;
         this.peso = -1;
         this.volume = -1;
         this.quantidade = 0;
@@ -21,7 +21,7 @@ public class Item {
     }
 
     //construtor com parametros
-    public Item( String nome,String tipo,float peso, float volume, int quantidade, String setor, 
+    public Item( String nome,Tipo tipo,float peso, float volume, int quantidade, String setor, 
     String localizacao){
         this.nome=nome;
         this.tipo=tipo;
@@ -55,7 +55,7 @@ public class Item {
         return setor;
     }
 
-    public String getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
@@ -97,8 +97,31 @@ public class Item {
         this.setor = setor;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipo(int tipo) {
+        switch(tipo){
+            case 1:this.tipo=Tipo.CARNES;
+            break;
+            case 2:this.tipo=Tipo.HIGIENE;
+            break;
+            case 3:this.tipo=Tipo.LIMPEZA;
+            break;
+            case 4:this.tipo=Tipo.SALGADINHOS;
+            break;
+            case 5:this.tipo=Tipo.CONGELADOS;
+            break;
+            case 6:this.tipo=Tipo.FRIOS;
+            break;
+            case 7:this.tipo=Tipo.ENLATADOS;
+            break;
+            case 8:this.tipo=Tipo.BEBIDAS;
+            break;
+            case 9:this.tipo=Tipo.OUTROS;
+            break;
+            default:this.tipo=null;
+
+        }
+
+      
     }
 
     public void setVolume(float volume) {
