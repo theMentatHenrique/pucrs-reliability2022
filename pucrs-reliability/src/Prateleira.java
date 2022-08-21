@@ -82,10 +82,13 @@ public class Prateleira {
     }
 
     public void listItens(){
+        if(itens.size()==0){System.out.println("esta prateleira está vazia");}
+        else{
 
             for (int i = 0; i < itens.size(); i++) {
                     itens.get(i).imprimeItem();
             }
+        }
         
     }
     public void setCapMaxPeso(float capMaxPeso) {
@@ -96,10 +99,13 @@ public class Prateleira {
         itens.set(indice, item);
     }
     public void addItem(Item item){
-        this.itens.add(item);
-        incrementPesoOcupado(item.getPeso());
-        incrementVolumeOcupado(item.getVolume());
-        
+        if(validaCapacidade(item.getPeso()*item.getQuantidade(), item.getVolume()*item.getQuantidade())){
+            itens.add(item);
+            incrementPesoOcupado(item.getPeso());
+            incrementVolumeOcupado(item.getVolume());
+            return;
+        }
+        System.out.println("a prateleira não suporta adicionar este item");     
     }
 
     public void deleteItem(int indice){
@@ -146,7 +152,7 @@ public class Prateleira {
     public boolean validaCapacidade(float peso,float volume){
         float volumeAtual=this.volumeOcupado+volume;
         float pesoAtual=this.pesoOcupado+peso;
-        if(pesoAtual>pesoOcupado || volumeAtual>volumeOcupado){return false;}
+        if(pesoAtual>capMaxPeso || volumeAtual>capMaxVolume){return false;}
         return true;
     }
 }

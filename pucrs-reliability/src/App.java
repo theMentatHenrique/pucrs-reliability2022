@@ -29,6 +29,7 @@ public class App {
         mock = new Item("Pringles", "Salgadinho", 190.5f, 300.0f, 50, "Gulouseimas", "30");
         prateleira.addItem(mock);
 
+  
 
 
 
@@ -82,6 +83,76 @@ public class App {
         }
 */
     }
+    
+    public static float convertValorVolume(String valor){
+        float numero;
+
+            if(valor.contains("MM3")){
+
+                System.out.println("valor");
+                valor=valor.replace(",", ".");
+                valor=valor.replace("MM3", "");
+
+                 numero=Float.valueOf(valor);
+                 numero*=0.000000001;
+                 return numero;
+                
+            }
+
+            if(valor.contains("CM3")){
+                valor=  valor.replace(",", ".");
+                valor=   valor.replace("CM3", "");
+
+                numero=Float.parseFloat(valor);
+                numero*= 0.000001;
+                return numero;                
+            }
+            if(valor.contains("M3")){
+                valor=valor.replace(",", ".");
+                valor= valor.replace("M3", "");
+
+               return   numero=Float.valueOf(valor);
+                
+            }
+
+            System.out.println("entrada invalida ");
+            
+        return 1f;
+    }
+
+    public static float convertValorPeso(String valor){
+        float numero;
+
+            if(valor.contains("KG")){
+                valor=valor.replace(",", ".");
+                valor=valor.replace("KG", "");
+                System.out.println(valor);
+
+                return numero=Float.valueOf(valor);
+                
+            }
+
+            if(valor.contains("G")){
+              valor=  valor.replace(",", ".");
+               valor= valor.replace("G", "");
+
+                numero=Float.parseFloat(valor);
+                numero*=0.001;
+                return numero;                
+            }
+            if(valor.contains("MG")){
+                valor=valor.replace(",", ".");
+                valor=valor.replace("MG", "");
+
+                numero=Float.parseFloat(valor);
+                numero/=1000000;
+                return numero;                
+            }
+            
+            System.out.println("entrada invalida ");
+            
+            return 1f;
+    }
 
     public static Item PopulaCampos() {
         try {
@@ -94,11 +165,11 @@ public class App {
             System.out.println("digite o tipo do produto:");
             item.setTipo(in.nextLine());
 
-            System.out.println("digite o peso do produto:");
-            item.setPeso(in.nextFloat());
+            System.out.println("digite o peso do produto com a unidade de medida:");
+            item.setPeso(convertValorPeso((in.nextLine()).toUpperCase()));
 
             System.out.println("digite o volume do produto:");
-            item.setVolume(in.nextFloat());
+            item.setVolume(convertValorVolume((in.nextLine()).toUpperCase()));
 
             System.out.println("digite a quantidade do produto:");
             item.setQuantidade(in.nextInt());
@@ -161,7 +232,7 @@ public class App {
 
         Scanner in = new Scanner(System.in);
 
-        System.out.println("digite o nome do produto que deseja remover:");
+        System.out.println("digite o nome do produto que deseja atualizar:");
         String nome = in.nextLine();
         for(int i=0;i<prateleiras.size();i++){
 
@@ -178,6 +249,8 @@ public class App {
                 }
             }
         }  
+                    System.out.println("não foi encontrado nenhum item com este nome");
+
     }
 
     public void consultaItemPorSetor(ArrayList<Prateleira> prateleiras) {
