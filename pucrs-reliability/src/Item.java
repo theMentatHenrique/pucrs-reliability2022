@@ -7,9 +7,9 @@ public class Item {
     private String setor;
     private String localizacao;
 
-    //construtor sem parametro com valores invalidos 
+    // construtor sem parametro com valores invalidos
     public Item() {
-        
+
         this.nome = "";
         this.tipo = null;
         this.peso = -1;
@@ -20,21 +20,20 @@ public class Item {
 
     }
 
-    //construtor com parametros
-    public Item( String nome,Tipo tipo,float peso, float volume, int quantidade, String setor, 
-    String localizacao){
-        this.nome=nome;
-        this.tipo=tipo;
-        this.peso=peso;
-        this.volume=volume;
-        this.quantidade=quantidade;
-        this.setor=setor;
-        this.localizacao=localizacao;
+    // construtor com parametros
+    public Item(String nome, Tipo tipo, float peso, float volume, int quantidade, String setor,
+            String localizacao) {
+        this.nome = nome;
+        this.tipo = tipo;
+        this.peso = peso;
+        this.volume = volume;
+        this.quantidade = quantidade;
+        this.setor = setor;
+        this.localizacao = localizacao;
 
     }
 
-
-
+    // getters
     public String getLocalizacao() {
         return localizacao;
     }
@@ -64,19 +63,6 @@ public class Item {
     }
 
     // setters
-    
-    public void imprimeItem(){
-        System.out.println("Nome:" + nome);
-        System.out.println("Tipo:" + tipo);
-        System.out.println("Peso:" + peso);
-        System.out.println("Volume:" + volume);
-        System.out.println("Quantidade:" +quantidade);
-        System.out.println("Setor:" + setor);
-        System.out.println("Localização na prateleira:" + localizacao);
-        System.out.println("---------------------------------------------------------------");
-
-    }
-
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
     }
@@ -97,37 +83,62 @@ public class Item {
         this.setor = setor;
     }
 
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+    // métodos auxiliares
+
+    // imprime as propriedades da classe
+    public void imprimeItem() {
+        System.out.println("Nome:" + nome);
+        System.out.println("Tipo:" + tipo);
+        System.out.println("Peso:" + peso);
+        System.out.println("Volume:" + volume);
+        System.out.println("Quantidade:" + quantidade);
+        System.out.println("Setor:" + setor);
+        System.out.println("Localização na prateleira:" + localizacao);
+        System.out.println("---------------------------------------------------------------");
+
+    }
+
+    // converte um inteiro vindo como parametro para o Enum equivalente de Tipo
     public void setTipo(int tipo) {
-        switch(tipo){
-            case 1:this.tipo=Tipo.CARNES;
-            break;
-            case 2:this.tipo=Tipo.HIGIENE;
-            break;
-            case 3:this.tipo=Tipo.LIMPEZA;
-            break;
-            case 4:this.tipo=Tipo.SALGADINHOS;
-            break;
-            case 5:this.tipo=Tipo.CONGELADOS;
-            break;
-            case 6:this.tipo=Tipo.FRIOS;
-            break;
-            case 7:this.tipo=Tipo.ENLATADOS;
-            break;
-            case 8:this.tipo=Tipo.BEBIDAS;
-            break;
-            case 9:this.tipo=Tipo.PEIXES;
-            break;
-            case 10:this.tipo=Tipo.OUTROS;
-            break;
-            default:this.tipo=null;
+        switch (tipo) {
+            case 1:
+                this.tipo = Tipo.CARNES;
+                break;
+            case 2:
+                this.tipo = Tipo.HIGIENE;
+                break;
+            case 3:
+                this.tipo = Tipo.LIMPEZA;
+                break;
+            case 4:
+                this.tipo = Tipo.SALGADINHOS;
+                break;
+            case 5:
+                this.tipo = Tipo.CONGELADOS;
+                break;
+            case 6:
+                this.tipo = Tipo.FRIOS;
+                break;
+            case 7:
+                this.tipo = Tipo.ENLATADOS;
+                break;
+            case 8:
+                this.tipo = Tipo.BEBIDAS;
+                break;
+            case 9:
+                this.tipo = Tipo.PEIXES;
+                break;
+            case 10:
+                this.tipo = Tipo.OUTROS;
+                break;
+            default:
+                this.tipo = null;
 
         }
 
-      
-    }
-
-    public void setVolume(float volume) {
-        this.volume = volume;
     }
 
 }
