@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-import javax.print.attribute.standard.MediaSize.NA;
 
 public class Prateleira {
     private ArrayList<Item> itens;
@@ -96,21 +95,26 @@ public class Prateleira {
     }
 
     public void atualizaItem(int indice,Item item){
+        decrementPesoOcupado(itens.get(indice).getPeso()*itens.get(indice).getQuantidade());
+        decrementVolumeOcupado(itens.get(indice).getVolume()*itens.get(indice).getQuantidade());
+
+        incrementPesoOcupado(item.getPeso()*item.getQuantidade());
+        incrementVolumeOcupado(item.getVolume()*item.getQuantidade());
         itens.set(indice, item);
     }
-    public void addItem(Item item){
+    public boolean addItem(Item item){
         if(validaCapacidade(item.getPeso()*item.getQuantidade(), item.getVolume()*item.getQuantidade())){
             itens.add(item);
-            incrementPesoOcupado(item.getPeso());
-            incrementVolumeOcupado(item.getVolume());
-            return;
+            incrementPesoOcupado(item.getPeso()*item.getQuantidade());
+            incrementVolumeOcupado(item.getVolume()*item.getQuantidade());
+            return true;
         }
-        System.out.println("a prateleira não suporta adicionar este item");     
+        return false;
     }
 
     public void deleteItem(int indice){
-        decrementPesoOcupado(itens.get(indice).getPeso());
-        decrementVolumeOcupado(itens.get(indice).getVolume());
+        decrementPesoOcupado(itens.get(indice).getPeso()*itens.get(indice).getQuantidade());
+        decrementVolumeOcupado(itens.get(indice).getVolume()*itens.get(indice).getQuantidade());
         itens.remove(indice);
     }
 
