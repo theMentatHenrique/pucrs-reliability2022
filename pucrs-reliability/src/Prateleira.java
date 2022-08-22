@@ -93,6 +93,17 @@ public class Prateleira {
     public void setCapMaxPeso(float capMaxPeso) {
         this.capMaxPeso = capMaxPeso;
     }
+    public void imprimePrateleira() {
+        System.out.println("Nome da prateleira:"+this.getNomePrateleira());
+        System.out.println("Setor:"+this.getSetor());
+        System.out.println("Quantidade de itens:"+ this.getItens().size());
+        System.out.println("Capacidade maxima de peso:"+ this.getCapMaxPeso());
+        System.out.println("Capacidade maxima de volume:"+ this.getCapMaxVolume());
+        System.out.println("Capacidade ocupada de peso:"+ this.getPesoOcupado());
+        System.out.println("Capacidade ocupada de volume:"+ this.getCapMaxVolume());
+        System.out.println("---------------------------------------------------------------");
+
+    }
 
     public void atualizaItem(int indice,Item item){
         decrementPesoOcupado(itens.get(indice).getPeso()*itens.get(indice).getQuantidade());

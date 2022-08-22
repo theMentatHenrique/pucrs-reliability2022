@@ -10,7 +10,10 @@ public class App {
 
         ArrayList<Prateleira> prateleiras = new ArrayList<Prateleira>();
 
-        Prateleira prateleira = new Prateleira("1A", "gulouseimas", 100f, 100f);
+        Prateleira prateleira = new Prateleira("1C", "gulouseimas", 100f, 100f);
+         prateleira = new Prateleira("1P", "gulouseimas", 100f, 100f);
+         prateleira = new Prateleira("1B", "gulouseimas", 100f, 100f);
+         prateleira = new Prateleira("1I", "gulouseimas", 100f, 100f);
 
         // boolean continuar = true;
         /*
@@ -335,6 +338,20 @@ public class App {
         for (int i = 0; i < prateleiras.size(); i++) {
             if (prateleiras.get(i).getNomePrateleira().equals(filtroPrateleira.trim())) {
                 prateleiras.get(i).listItens();
+            }
+        }
+        in.close();
+
+    }
+    public void consultaPrateleiraPorSetor(ArrayList<Prateleira> prateleiras) {
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("digite o setor da prateleira:");
+        String filtroPrateleira = in.nextLine();
+
+        for (int i = 0; i < prateleiras.size(); i++) {
+            if (prateleiras.get(i).getSetor().equals(filtroPrateleira.trim())) {
+                prateleiras.get(i).imprimePrateleira();
             }
         }
         in.close();
