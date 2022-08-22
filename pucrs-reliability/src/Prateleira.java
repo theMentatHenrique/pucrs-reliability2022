@@ -142,9 +142,7 @@ public class Prateleira {
         this.capMaxVolume = capMaxVolume;
     }
 
-    public void removePorIndice(int indice){
-        
-    }
+   
 
    public void setNomePrateleira(String nomePrateleira) {
        this.nomePrateleira = nomePrateleira;

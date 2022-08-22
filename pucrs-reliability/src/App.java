@@ -39,11 +39,11 @@ public class App {
             switch (opt) {
 
                 case 1:
-                    addItem(prateleiras);
+                    addItem(prateleiras, false);
                     break;
                 case 2:
                     deleteItem(prateleiras);
-       
+
                     break;
                 case 3:
                     updateItem(prateleiras);
@@ -73,93 +73,89 @@ public class App {
     public static void listarItens(ArrayList<Prateleira> prateleiras) {
 
         for (int i = 0; i < prateleiras.size(); i++) {
-            if(prateleiras.get(i).getItens().size()!=0){
+            if (prateleiras.get(i).getItens().size() != 0) {
                 prateleiras.get(i).listItens();
             }
-           
+
         }
 
     }
 
     public static float convertValorVolume(String valor) {
 
-        try{
-        float numero;
+        try {
+            float numero;
 
-        if (valor.contains("MM3")) {
+            if (valor.contains("MM3")) {
 
-            System.out.println("valor");
-            valor = valor.replace(",", ".");
-            valor = valor.replace("MM3", "");
+                System.out.println("valor");
+                valor = valor.replace(",", ".");
+                valor = valor.replace("MM3", "");
 
-            numero = Float.valueOf(valor);
-            numero *= 0.000000001;
-            return numero;
+                numero = Float.valueOf(valor);
+                numero *= 0.000000001;
+                return numero;
 
-        }
+            }
 
-        if (valor.contains("CM3")) {
-            valor = valor.replace(",", ".");
-            valor = valor.replace("CM3", "");
+            if (valor.contains("CM3")) {
+                valor = valor.replace(",", ".");
+                valor = valor.replace("CM3", "");
 
-            numero = Float.parseFloat(valor);
-            numero *= 0.000001;
-            return numero;
-        }
-        if (valor.contains("M3")) {
-            valor = valor.replace(",", ".");
-            valor = valor.replace("M3", "");
+                numero = Float.parseFloat(valor);
+                numero *= 0.000001;
+                return numero;
+            }
+            if (valor.contains("M3")) {
+                valor = valor.replace(",", ".");
+                valor = valor.replace("M3", "");
 
-            return numero = Float.valueOf(valor);
+                return numero = Float.valueOf(valor);
 
-        }
+            }
 
-
-        return -1f;
-        }
-        catch (NumberFormatException erro) {
+            return -1f;
+        } catch (NumberFormatException erro) {
 
             return -1f;
         }
-    
+
     }
 
     public static float convertValorPeso(String valor) {
-        try{
-        float numero;
+        try {
+            float numero;
 
-        if (valor.contains("KG")) {
-            valor = valor.replace(",", ".");
-            valor = valor.replace("KG", "");
+            if (valor.contains("KG")) {
+                valor = valor.replace(",", ".");
+                valor = valor.replace("KG", "");
 
-            return numero = Float.valueOf(valor);
+                return numero = Float.valueOf(valor);
 
+            }
+
+            if (valor.contains("G")) {
+                valor = valor.replace(",", ".");
+                valor = valor.replace("G", "");
+
+                numero = Float.parseFloat(valor);
+                numero *= 0.001;
+                return numero;
+            }
+            if (valor.contains("MG")) {
+                valor = valor.replace(",", ".");
+                valor = valor.replace("MG", "");
+
+                numero = Float.parseFloat(valor);
+                numero /= 1000000;
+                return numero;
+            }
+
+            return -1f;
+        } catch (NumberFormatException erro) {
+
+            return -1f;
         }
-
-        if (valor.contains("G")) {
-            valor = valor.replace(",", ".");
-            valor = valor.replace("G", "");
-
-            numero = Float.parseFloat(valor);
-            numero *= 0.001;
-            return numero;
-        }
-        if (valor.contains("MG")) {
-            valor = valor.replace(",", ".");
-            valor = valor.replace("MG", "");
-
-            numero = Float.parseFloat(valor);
-            numero /= 1000000;
-            return numero;
-        }
-
-
-        return -1f;
-    }
-    catch (NumberFormatException erro) {
-
-        return -1f;
-    }
 
     }
 
@@ -188,7 +184,7 @@ public class App {
                 item.setTipo(tipo);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-                
+
                 return null;
             }
             // limpa o buffer
@@ -198,10 +194,9 @@ public class App {
             float peso = convertValorPeso((in.nextLine()).toUpperCase());
             if (peso != -1) {
                 item.setPeso(peso);
-            }
-            else {
+            } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-                
+
                 return null;
             }
 
@@ -211,7 +206,7 @@ public class App {
                 item.setVolume(volume);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-               
+
                 return null;
             }
 
@@ -221,7 +216,7 @@ public class App {
                 item.setQuantidade(quantidade);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-              
+
                 return null;
             }
 
@@ -234,7 +229,6 @@ public class App {
             System.out.println("digite a localização do produto:");
             item.setLocalizacao(in.nextLine());
 
-            
             return item;
 
         } catch (InputMismatchException erro) {
@@ -260,9 +254,7 @@ public class App {
         return false;
     }
 
-  
-
-    public static void addItem(ArrayList<Prateleira> prateleiras) {
+    public static boolean addItem(ArrayList<Prateleira> prateleiras, boolean ehEdicao) {
 
         Item item = PopulaCampos();
         boolean terminou = false;
@@ -302,13 +294,17 @@ public class App {
                     break;
             }
 
-            if (terminou) {
+            if (terminou && !ehEdicao) {
                 System.out.println("item adicionado com sucesso");
+                return true;
             }
+
         }
+
+        return false;
     }
 
-    public static void deleteItem(ArrayList<Prateleira> prateleiras) {
+    public static boolean deleteItem(ArrayList<Prateleira> prateleiras) {
 
         try {
             Scanner in = new Scanner(System.in);
@@ -322,20 +318,21 @@ public class App {
                 if (indice != -1) {
                     prateleiras.get(i).deleteItem(indice);
                     System.out.println("Item deletado com sucesso");
-                    return;
+                    return true ;
                 }
-               
 
             }
 
             System.out.println("não foi encontrado nenhum item com este nome");
+            return false;
 
         } catch (InputMismatchException erro) {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
+            return false;
         }
     }
 
-    public static void updateItem(ArrayList<Prateleira> prateleiras) {
+    public static boolean updateItem(ArrayList<Prateleira> prateleiras) {
 
         Scanner in = new Scanner(System.in);
 
@@ -348,17 +345,21 @@ public class App {
 
                 System.out.println("item Selecionado:" + prateleiras.get(i).getItens().get(indice).getNome());
                 System.out.println("digite abaixo os campos com os valores atualizados");
-                Item item = PopulaCampos();
-                if (item != null) {
-                    prateleiras.get(i).atualizaItem(indice, item);
-                    System.out.println("item atualizado com sucesso");
-
-                    return;
+                boolean adicionou = addItem(prateleiras, true);
+                if (adicionou) {
+                    prateleiras.get(i).deleteItem(indice);
+                    System.out.println("item alterado com sucesso");
+                    return true;
                 }
+
+
+                
+                
             }
         }
 
         System.out.println("não foi encontrado nenhum item com este nome");
+        return false;
 
     }
 
@@ -386,24 +387,25 @@ public class App {
                 prateleiras.get(i).listItens();
             }
         }
-       
 
     }
 
     public static void consultaPrateleiraPorSetor(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
-        boolean encontrei=false;
+        boolean encontrei = false;
         System.out.println("digite o setor da prateleira:");
         String filtroPrateleira = in.nextLine();
 
         for (int i = 0; i < prateleiras.size(); i++) {
             if (prateleiras.get(i).getSetor().equals(filtroPrateleira.trim())) {
                 prateleiras.get(i).imprimePrateleira();
-                encontrei=true;
+                encontrei = true;
             }
         }
-       
-        if(!encontrei){System.out.println("não foi encontrada nenhuma prateleira com este setor");}
+
+        if (!encontrei) {
+            System.out.println("não foi encontrada nenhuma prateleira com este setor");
+        }
     }
 
 }

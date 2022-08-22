@@ -116,6 +116,7 @@ public class Item {
             case 8:this.tipo=Tipo.BEBIDAS;
             break;
             case 9:this.tipo=Tipo.PEIXES;
+            break;
             case 10:this.tipo=Tipo.OUTROS;
             break;
             default:this.tipo=null;
