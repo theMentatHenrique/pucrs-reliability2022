@@ -1,3 +1,11 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -7,18 +15,36 @@ public class App {
     // o método main apresenta o menu de opções possiveis e redireciona conforme
     // escolha
     public static void main(String[] args) throws Exception {
-
+        
+        
+       
         //é instanciado uma lista de prateleiras previamente, pois as mesmas não estão incluidas no processo de CRUD
         ArrayList<Prateleira> prateleiras = new ArrayList<Prateleira>();
-        Prateleira prateleira = new Prateleira("1C", "gulouseimas", 100000f, 100000f);
+        Prateleira prateleira = new Prateleira("1C", "Acougue", 100000f, 100000f);
         prateleiras.add(prateleira);
-        prateleira = new Prateleira("1P", "gulouseimas", 100f, 100f);
+        prateleira = new Prateleira("1P", "Peixaria", 1000000000f, 1000000000f);
         prateleiras.add(prateleira);
-        prateleira = new Prateleira("1B", "gulouseimas", 100f, 100f);
+        prateleira = new Prateleira("1B", "Consumiveis", 1000000f, 10000000f);
         prateleiras.add(prateleira);
-        prateleira = new Prateleira("1I", "gulouseimas", 100f, 100f);
+        prateleira = new Prateleira("1I", "Freezers", 100000f, 100000f);
         prateleiras.add(prateleira);
+        prateleira = new Prateleira("1S", "EMBALADOS", 100000f, 100000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1L", "Casa", 100000f, 100000f);
+        prateleiras.add(prateleira);
+ 
+        boolean arquivo=readFile("Estoque.csv",prateleiras);
+        
 
+      
+        if(!arquivo){
+            System.out.println("Não foi possivel obter os dados do banco de dados");
+
+        }
+        else{
+
+        
+        
         //abaixo esta o menu interativo e cada opcao leva a um método especifico
         boolean continuar = true;
 
@@ -61,13 +87,64 @@ public class App {
                     consultaPrateleiraPorSetor(prateleiras);
                     break;
                 case 0:
+                    gravaArquivo(prateleiras);
                     continuar = false;
                     break;
                 default:
+                    gravaArquivo(prateleiras);
                     System.out.println("opcao invalida");
             }
         }
 
+    }
+    
+}
+
+    public static Tipo convertToTipo(String opcao){
+
+        switch(opcao){
+            case "CARNES":return Tipo.CARNES;
+            case "HIGIENE":return Tipo.HIGIENE;
+            case "LIMPEZA":return Tipo.LIMPEZA;
+            case "SALGADINHOS":return Tipo.SALGADINHOS;
+            case "CONGELADOS":return Tipo.CONGELADOS;
+            case "FRIOS":return Tipo.FRIOS;
+            case "ENLATADOS":return Tipo.ENLATADOS;
+            case "BEBIDAS":return Tipo.BEBIDAS;
+            case "PEIXES":return Tipo.PEIXES;
+            case "OUTROS":return Tipo.OUTROS;
+
+
+        }
+
+        return null;
+    }
+
+    public static boolean readFile(String fileName,ArrayList<Prateleira> prateleiras) {
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Estoque.csv"), "UTF-8"))) {
+          
+            String line = br.readLine();
+
+            
+            while (line != null) {
+                line = br.readLine();
+
+                if (line != null) {
+                   
+                   String teste[] =line.split(";");
+                  Item item=new Item(teste[0], convertToTipo(teste[1]), Float.parseFloat(teste[2]), Float.parseFloat(teste[3]),Integer.parseInt(teste[4]) , teste[5], teste[6]);
+                  escolhePrateleira(item,prateleiras);
+                }
+
+            }
+            return true;
+        }
+        catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo");
+            return false;
+
+        }
     }
 
     //percorre todos os elementos do arrayList prateleiras e imprime todos os itens presente nestes objetos
@@ -84,89 +161,62 @@ public class App {
         }
 
     }
-    //recebe uma String e a converte para um float convertido da unidade disponibilizada para m3(metros cubicos) 
-    public static float convertValorVolume(String valor) {
 
-        try {
-            float numero;
 
-            //estes 3 ifs seguintes verificam a unidade dada na String e a converte em um numero aceitavel
-            if (valor.contains("MM3")) {
+    public static boolean gravaArquivo(ArrayList<Prateleira> prateleiras){
+        try (PrintWriter writer = new PrintWriter(new File("test.csv"))) {
 
-                System.out.println("valor");
-                valor = valor.replace(",", ".");
-                valor = valor.replace("MM3", "");
+            StringBuilder sb = new StringBuilder();
+            sb.append("Nome");
+            sb.append(';');
+            sb.append("Tipo");
+            sb.append(';');
+            sb.append("Peso");
+            sb.append(';');
+            sb.append("Volume");
+            sb.append(';');
+            sb.append("Quantidade");
+            sb.append(';');
+            sb.append("Setor");
+            sb.append(';');
+            sb.append("Localizacao");
+            sb.append('\n');
 
-                numero = Float.valueOf(valor);
-                numero *= 0.000000001;
-                return numero;
+            for(int i=0;i<prateleiras.size();i++){
+                ArrayList<Item> itens=prateleiras.get(i).getItens();
+            for(int j=0;j<itens.size();j++){
 
+                sb.append(itens.get(j).getNome());
+            sb.append(';');
+            sb.append(itens.get(j).getTipo());
+            sb.append(';');
+            sb.append(new BigDecimal(itens.get(j).getPeso()).toPlainString());
+            sb.append(';');
+            sb.append(new BigDecimal(itens.get(j).getVolume()).toPlainString());
+            sb.append(';');
+            sb.append(itens.get(j).getQuantidade());
+            sb.append(';');
+            sb.append(itens.get(j).getSetor());
+            sb.append(';');
+            sb.append(itens.get(j).getLocalizacao());
+            sb.append('\n');
+            }
             }
 
-            if (valor.contains("CM3")) {
-                valor = valor.replace(",", ".");
-                valor = valor.replace("CM3", "");
+            writer.write(sb.toString());
+            writer.close();
+           
 
-                numero = Float.parseFloat(valor);
-                numero *= 0.000001;
-                return numero;
-            }
-            if (valor.contains("M3")) {
-                valor = valor.replace(",", ".");
-                valor = valor.replace("M3", "");
+            return true;
 
-                return numero = Float.valueOf(valor);
-
-            }
-            //caso não seja encontrado a formatação a se realizar, retorna um numero negativo e
-            //neste retorno é tratado a ocorrência
-            return -1f;
-
-        }//caso haja algum erro durante converter o numero para float,
-        //como ter uma letra indevida, retorna também um numero negativo a ser tratado posteriormente
-         catch (NumberFormatException erro) {
-
-            return -1f;
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
-
+       
     }
-    //mesmos processos do método acima,porém para unidades de peso e não volume 
-    public static float convertValorPeso(String valor) {
-        try {
-            float numero;
 
-            if (valor.contains("KG")) {
-                valor = valor.replace(",", ".");
-                valor = valor.replace("KG", "");
-
-                return numero = Float.valueOf(valor);
-
-            }
-
-            if (valor.contains("G")) {
-                valor = valor.replace(",", ".");
-                valor = valor.replace("G", "");
-
-                numero = Float.parseFloat(valor);
-                numero *= 0.001;
-                return numero;
-            }
-            if (valor.contains("MG")) {
-                valor = valor.replace(",", ".");
-                valor = valor.replace("MG", "");
-
-                numero = Float.parseFloat(valor);
-                numero /= 1000000;
-                return numero;
-            }
-
-            return -1f;
-        } catch (NumberFormatException erro) {
-
-            return -1f;
-        }
-
-    }
+    
 
     // este método capta os valores do teclado e os atribui aos campos da classe Item com os devidos controles
     public static Item PopulaCampos() {
@@ -202,25 +252,23 @@ public class App {
             // limpa o buffer
             in.nextLine();
 
-            //pega o valor como String e realiza a conversão para o tipo float devidamente formatado
-            //todos casos são convertidos para letras maiusculas para evitar erros possiveis
-            System.out.println("digite o peso do produto com a unidade de medida (100KG, 2.5G,200MG):");
-            float peso = convertValorPeso((in.nextLine()).toUpperCase());
+            
+            System.out.println("digite o peso do produto em KG e use vírgula para separar as casas decimais:");
+            float peso =in.nextFloat();
 
-            //se o retorno for um numero negativo,não houve formatação correta e apresenta mesma mensagem do catch
-            //ademais é setado o tipo devidamente
-            if (peso != -1) {
+          
+            if (peso > 0.0) {
                 item.setPeso(peso);
             } else {
-                System.out.println("entrada invalida, tente novamente com uma entrada valida");
+                System.out.println("entrada invalidasa, tente novamente com uma entrada valida");
 
                 return null;
             }
 
-            //mesma lógica acima desenvolvida,porém a chamada é para um método especifico para tratar volume
-            System.out.println("digite o volume do produto com a unidade de medida(100M3,1.5CM3,10MM3):");
-            float volume = convertValorVolume((in.nextLine()).toUpperCase());
-            if (volume != -1) {
+            System.out.println("digite o volume do produto em M3 e use vírgula para separar as casas decimais:");
+            float volume = in.nextFloat();
+
+            if (volume > 0) {
                 item.setVolume(volume);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
@@ -271,10 +319,53 @@ public class App {
                 if (adicionou) {
                     return true;
                 }
+               
+               
             }
         }
-        System.out.println("não foram encontradas prateleiras disponiveis para depositar este item");
+        System.out.println("não foram encontradas prateleiras disponiveis para depositar este item:"+item.getNome());
         return false;
+    }
+
+    public static boolean escolhePrateleira(Item item,ArrayList<Prateleira> prateleiras){
+        boolean terminou=false;
+
+        switch (item.getTipo()) {
+
+            case CARNES:
+                terminou = adicionaNaPrateleira("C", prateleiras, item);
+                break;
+            case PEIXES:
+                terminou = adicionaNaPrateleira("P", prateleiras, item);
+                break;
+            case BEBIDAS:
+                terminou = adicionaNaPrateleira("B", prateleiras, item);
+                break;
+            case CONGELADOS:
+                terminou = adicionaNaPrateleira("I", prateleiras, item);
+                break;
+            case ENLATADOS:
+                terminou = adicionaNaPrateleira("E", prateleiras, item);
+                break;
+            case FRIOS:
+                terminou = adicionaNaPrateleira("F", prateleiras, item);
+                break;
+            case HIGIENE:
+                terminou = adicionaNaPrateleira("H", prateleiras, item);
+                break;
+            case LIMPEZA:
+                terminou = adicionaNaPrateleira("L", prateleiras, item);
+                break;
+            case SALGADINHOS:
+                terminou = adicionaNaPrateleira("S", prateleiras, item);
+                break;
+            case OUTROS:
+                terminou = adicionaNaPrateleira("O", prateleiras, item);
+                break;
+        }
+
+        return terminou;
+
     }
 
     //adiciona um novo item ao estoque com base nos dados fornecidos pelo usuario e coloca este item em 
@@ -289,41 +380,7 @@ public class App {
         //adicionar
         if (item != null) {
 
-            //a estrutura abaixo valida qual o tipo do produto e encaminha para o tipo de prateleira próprio para o mesmo
-
-            switch (item.getTipo()) {
-
-                case CARNES:
-                    terminou = adicionaNaPrateleira("C", prateleiras, item);
-                    break;
-                case PEIXES:
-                    terminou = adicionaNaPrateleira("P", prateleiras, item);
-                    break;
-                case BEBIDAS:
-                    terminou = adicionaNaPrateleira("B", prateleiras, item);
-                    break;
-                case CONGELADOS:
-                    terminou = adicionaNaPrateleira("I", prateleiras, item);
-                    break;
-                case ENLATADOS:
-                    terminou = adicionaNaPrateleira("E", prateleiras, item);
-                    break;
-                case FRIOS:
-                    terminou = adicionaNaPrateleira("F", prateleiras, item);
-                    break;
-                case HIGIENE:
-                    terminou = adicionaNaPrateleira("H", prateleiras, item);
-                    break;
-                case LIMPEZA:
-                    terminou = adicionaNaPrateleira("L", prateleiras, item);
-                    break;
-                case SALGADINHOS:
-                    terminou = adicionaNaPrateleira("S", prateleiras, item);
-                    break;
-                case OUTROS:
-                    terminou = adicionaNaPrateleira("O", prateleiras, item);
-                    break;
-            }
+           terminou=escolhePrateleira(item,prateleiras);
 
             //se o item foi alocado devidamente em alguma prateleira e não é uma edição, apresenta mensagem de sucesso
 
@@ -331,6 +388,7 @@ public class App {
                 System.out.println("item adicionado com sucesso");
                 return true;
             }
+            if(terminou){return true;}
 
         }
 
@@ -417,30 +475,33 @@ public class App {
     //imprime o mesmo na tela
 
     public static void consultaItemPorSetor(ArrayList<Prateleira> prateleiras) {
+        int cont=0;
         Scanner in = new Scanner(System.in);
 
         System.out.println("digite o nome do setor do produto:");
         String filtroSetor = in.nextLine();
 
         for (int i = 0; i < prateleiras.size(); i++) {
-            prateleiras.get(i).consultaItemPorSetor(filtroSetor);
+            if(prateleiras.get(i).consultaItemPorSetor(filtroSetor)){cont++;};
         }
-        in.close();
-
+        
+        if(cont==0){System.out.println("Não foi encontrado nenhum item com este setor informado");}
     }
 
     //lista todos os itens presentes na prateleira especificada como entrada pelo seu nome
     public static void consultaPorPrateleira(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
-
+        Boolean controle=false;
         System.out.println("digite o nome da prateleira:");
         String filtroPrateleira = in.nextLine();
 
         for (int i = 0; i < prateleiras.size(); i++) {
             if (prateleiras.get(i).getNomePrateleira().equals(filtroPrateleira.trim())) {
                 prateleiras.get(i).listItens();
+                controle=true;
             }
         }
+        if(!controle){System.out.println("Não foi encontrada nenhuma prateleira com este nome");}
 
     }
 

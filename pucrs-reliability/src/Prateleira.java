@@ -75,10 +75,10 @@ public class Prateleira {
         System.out.println("Nome da prateleira:"+this.getNomePrateleira());
         System.out.println("Setor:"+this.getSetor());
         System.out.println("Quantidade de itens:"+ this.getItens().size());
-        System.out.println("Capacidade maxima de peso:"+ this.getCapMaxPeso());
-        System.out.println("Capacidade maxima de volume:"+ this.getCapMaxVolume());
-        System.out.println("Capacidade ocupada de peso:"+ this.getPesoOcupado());
-        System.out.println("Capacidade ocupada de volume:"+ this.getVolumeOcupado());
+        System.out.println("Capacidade maxima de peso:"+ this.getCapMaxPeso()+"KG");
+        System.out.println("Capacidade maxima de volume:"+ this.getCapMaxVolume()+"M3");
+        System.out.println("Capacidade ocupada de peso:"+ this.getPesoOcupado()+"KG");
+        System.out.println("Capacidade ocupada de volume:"+ this.getVolumeOcupado()+"M3");
         System.out.println("---------------------------------------------------------------");
 
     }
@@ -95,7 +95,6 @@ public class Prateleira {
             incrementVolumeOcupado(item.getVolume()*item.getQuantidade());
             return true;
         }
-        System.out.println("o limite de peso/volume será ultrapassado ao adicionar este item");
         return false;
     }
 
@@ -147,19 +146,17 @@ public class Prateleira {
     }
 
     //imprime em tela os itens presentes no vetor de itens que possuem o mesmo setor que o especificado
-    public void consultaItemPorSetor(String setor){
-
-        boolean nAchei=true;
+    public boolean consultaItemPorSetor(String setor){
+        boolean encontrei=false;
         for (int i = 0; i < itens.size(); i++) {
             if (itens.get(i).getSetor().equals(setor.trim())) {
+                encontrei=true;
                 itens.get(i).imprimeItem();
-                nAchei=false;  
+               
             }
         }
-
-        //caso não encontre nenhum, apresenta mensagem de erro
-        if(nAchei){System.out.println("não foi encontrado nenhum item neste setor");}
-
+        return encontrei;
+     
     }
     
     //imprime em tela todos os itens presentes no vetor

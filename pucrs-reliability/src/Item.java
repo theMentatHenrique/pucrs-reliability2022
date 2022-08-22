@@ -92,8 +92,8 @@ public class Item {
     public void imprimeItem() {
         System.out.println("Nome:" + nome);
         System.out.println("Tipo:" + tipo);
-        System.out.println("Peso:" + peso);
-        System.out.println("Volume:" + volume);
+        System.out.println("Peso:" + peso+"KG");
+        System.out.println("Volume:" + volume+"M3");
         System.out.println("Quantidade:" + quantidade);
         System.out.println("Setor:" + setor);
         System.out.println("Localização na prateleira:" + localizacao);
