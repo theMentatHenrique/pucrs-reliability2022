@@ -120,6 +120,7 @@ public class Prateleira {
             incrementVolumeOcupado(item.getVolume()*item.getQuantidade());
             return true;
         }
+        System.out.println("o limite de peso/volume será ultrapassado ao adicionar este item");
         return false;
     }
 

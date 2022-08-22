@@ -10,63 +10,77 @@ public class App {
 
         ArrayList<Prateleira> prateleiras = new ArrayList<Prateleira>();
 
-        Prateleira prateleira = new Prateleira("1C", "gulouseimas", 100f, 100f);
-         prateleira = new Prateleira("1P", "gulouseimas", 100f, 100f);
-         prateleira = new Prateleira("1B", "gulouseimas", 100f, 100f);
-         prateleira = new Prateleira("1I", "gulouseimas", 100f, 100f);
+        Prateleira prateleira = new Prateleira("1C", "gulouseimas", 100000f, 100000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1P", "gulouseimas", 100f, 100f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1B", "gulouseimas", 100f, 100f);
+        prateleiras.add(prateleira);
 
-        // boolean continuar = true;
-        /*
-         * while (continuar) {
-         * Scanner in = new Scanner(System.in);
-         * 
-         * System.out.println("qual operacao deseja realizar:");
-         * System.out.println("1-Adicionar item");
-         * System.out.println("2-Excluir item");
-         * System.out.println("3-Alterar item");
-         * System.out.println("4-Consultar item");
-         * System.out.println("5-Consultar item por setor");
-         * System.out.println("6-Consultar item por prateleira");
-         * System.out.println("7-Consultar prateleira por setor");
-         * System.out.println("0-Sair");
-         * 
-         * int opt = in.nextInt();
-         * 
-         * switch (opt) {
-         * 
-         * case 1:
-         * addItem(itens);
-         * break;
-         * case 2:
-         * deleteItem(itens);
-         * break;
-         * case 3:
-         * System.out.println("3");
-         * break;
-         * case 4:
-         * System.out.println("4");
-         * break;
-         * case 5:
-         * System.out.println("5");
-         * break;
-         * case 6:
-         * System.out.println("6");
-         * break;
-         * case 7:
-         * System.out.println("7");
-         * break;
-         * case 0:
-         * System.out.println("0");
-         * continuar = false;
-         * break;
-         * default:
-         * System.out.println("opcao invalida");
-         * }
-         * }
-         */
+        prateleira = new Prateleira("1I", "gulouseimas", 100f, 100f);
+        prateleiras.add(prateleira);
+
+        boolean continuar = true;
+
+        while (continuar) {
+            Scanner in = new Scanner(System.in);
+
+            System.out.println("qual operacao deseja realizar:");
+            System.out.println("1-Adicionar item");
+            System.out.println("2-Excluir item");
+            System.out.println("3-Alterar item");
+            System.out.println("4-Consultar item");
+            System.out.println("5-Consultar item por setor");
+            System.out.println("6-Consultar item por prateleira");
+            System.out.println("7-Consultar prateleira por setor");
+            System.out.println("0-Sair");
+
+            int opt = in.nextInt();
+
+            switch (opt) {
+
+                case 1:
+                    addItem(prateleiras);
+                    break;
+                case 2:
+                    deleteItem(prateleiras);
+                    break;
+                case 3:
+                    updateItem(prateleiras);
+                    break;
+                case 4:
+                    listarItens(prateleiras);
+                    break;
+                case 5:
+                    consultaItemPorSetor(prateleiras);
+                    break;
+                case 6:
+                    consultaPorPrateleira(prateleiras);
+                    break;
+                case 7:
+                    consultaPrateleiraPorSetor(prateleiras);
+                    break;
+                case 0:
+                    continuar = false;
+                    break;
+                default:
+                    System.out.println("opcao invalida");
+            }
+        }
+
+    }
+
+    public static void listarItens(ArrayList<Prateleira> prateleiras) {
+
+        for (int i = 0; i < prateleiras.size(); i++) {
+            prateleiras.get(i).listItens();
+        }
+
     }
 
     public static float convertValorVolume(String valor) {
+
+        try{
         float numero;
 
         if (valor.contains("MM3")) {
@@ -97,18 +111,23 @@ public class App {
 
         }
 
-        System.out.println("entrada invalida ");
 
-        return 1f;
+        return -1f;
+        }
+        catch (NumberFormatException erro) {
+
+            return -1f;
+        }
+    
     }
 
     public static float convertValorPeso(String valor) {
+        try{
         float numero;
 
         if (valor.contains("KG")) {
             valor = valor.replace(",", ".");
             valor = valor.replace("KG", "");
-            System.out.println(valor);
 
             return numero = Float.valueOf(valor);
 
@@ -131,9 +150,14 @@ public class App {
             return numero;
         }
 
-        System.out.println("entrada invalida ");
 
-        return 1f;
+        return -1f;
+    }
+    catch (NumberFormatException erro) {
+
+        return -1f;
+    }
+
     }
 
     public static Item PopulaCampos() {
@@ -144,7 +168,7 @@ public class App {
             System.out.println("digite o nome do produto:");
             item.setNome(in.nextLine());
 
-            System.out.println("digite o tipo do produto:");
+            System.out.println("escolha o tipo do produto:");
             System.out.println("1-CARNES");
             System.out.println("2-HIGIENE");
             System.out.println("3-LIMPEZA");
@@ -158,18 +182,35 @@ public class App {
 
             int tipo = in.nextInt();
             if (tipo > 0 && tipo < 11) {
-                item.setTipo(in.nextInt());
+                item.setTipo(tipo);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
                 in.close();
                 return null;
             }
+            // limpa o buffer
+            in.nextLine();
 
-            System.out.println("digite o peso do produto com a unidade de medida:");
-            item.setPeso(convertValorPeso((in.nextLine()).toUpperCase()));
+            System.out.println("digite o peso do produto com a unidade de medida(100KG, 2.5G,200MG):");
+            float peso = convertValorPeso((in.nextLine()).toUpperCase());
+            if (peso != -1) {
+                item.setPeso(peso);
+            }
+            else {
+                System.out.println("entrada invalida, tente novamente com uma entrada valida");
+                in.close();
+                return null;
+            }
 
-            System.out.println("digite o volume do produto com a unidade de medida:");
-            item.setVolume(convertValorVolume((in.nextLine()).toUpperCase()));
+            System.out.println("digite o volume do produto com a unidade de medida(100M3,1.5CM3,10MM3):");
+            float volume = convertValorVolume((in.nextLine()).toUpperCase());
+            if (volume != -1) {
+                item.setVolume(volume);
+            } else {
+                System.out.println("entrada invalida, tente novamente com uma entrada valida");
+                in.close();
+                return null;
+            }
 
             System.out.println("digite a quantidade do produto:");
             int quantidade = in.nextInt();
@@ -206,9 +247,10 @@ public class App {
         for (int i = 0; i < prateleiras.size(); i++) {
 
             if (prateleiras.get(i).getNomePrateleira().contains(letra.trim())) {
-                Boolean adicionou = prateleiras.get(i).addItem(item);
-                if (adicionou)
+                boolean adicionou = prateleiras.get(i).addItem(item);
+                if (adicionou) {
                     return true;
+                }
             }
         }
         System.out.println("não foram encontradas prateleiras disponiveis para depositar este item");
@@ -218,44 +260,46 @@ public class App {
     public static void addItem(ArrayList<Prateleira> prateleiras) {
 
         Item item = PopulaCampos();
-
+        boolean terminou = false;
         if (item != null) {
 
             switch (item.getTipo()) {
 
                 case CARNES:
-                    adicionaPrateleira("C", prateleiras, item);
+                    terminou = adicionaPrateleira("C", prateleiras, item);
                     break;
                 case PEIXES:
-                    adicionaPrateleira("P", prateleiras, item);
+                    terminou = adicionaPrateleira("P", prateleiras, item);
                     break;
                 case BEBIDAS:
-                    adicionaPrateleira("B", prateleiras, item);
+                    terminou = adicionaPrateleira("B", prateleiras, item);
                     break;
                 case CONGELADOS:
-                    adicionaPrateleira("I", prateleiras, item);
+                    terminou = adicionaPrateleira("I", prateleiras, item);
                     break;
                 case ENLATADOS:
-                    adicionaPrateleira("E", prateleiras, item);
+                    terminou = adicionaPrateleira("E", prateleiras, item);
                     break;
                 case FRIOS:
-                    adicionaPrateleira("F", prateleiras, item);
+                    terminou = adicionaPrateleira("F", prateleiras, item);
                     break;
                 case HIGIENE:
-                    adicionaPrateleira("H", prateleiras, item);
+                    terminou = adicionaPrateleira("H", prateleiras, item);
                     break;
                 case LIMPEZA:
-                    adicionaPrateleira("L", prateleiras, item);
+                    terminou = adicionaPrateleira("L", prateleiras, item);
                     break;
                 case SALGADINHOS:
-                    adicionaPrateleira("S", prateleiras, item);
+                    terminou = adicionaPrateleira("S", prateleiras, item);
                     break;
                 case OUTROS:
-                    adicionaPrateleira("O", prateleiras, item);
+                    terminou = adicionaPrateleira("O", prateleiras, item);
                     break;
             }
 
-            System.out.println("item adicionado com sucesso");
+            if (terminou) {
+                System.out.println("item adicionado com sucesso");
+            }
         }
     }
 
@@ -316,7 +360,7 @@ public class App {
 
     }
 
-    public void consultaItemPorSetor(ArrayList<Prateleira> prateleiras) {
+    public static void consultaItemPorSetor(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
 
         System.out.println("digite o nome do setor do produto:");
@@ -329,7 +373,7 @@ public class App {
 
     }
 
-    public void consultaPorPrateleira(ArrayList<Prateleira> prateleiras) {
+    public static void consultaPorPrateleira(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
 
         System.out.println("digite o nome da prateleira:");
@@ -343,7 +387,8 @@ public class App {
         in.close();
 
     }
-    public void consultaPrateleiraPorSetor(ArrayList<Prateleira> prateleiras) {
+
+    public static void consultaPrateleiraPorSetor(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
 
         System.out.println("digite o setor da prateleira:");
