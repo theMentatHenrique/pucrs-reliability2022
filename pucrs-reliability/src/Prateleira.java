@@ -100,7 +100,7 @@ public class Prateleira {
         System.out.println("Capacidade maxima de peso:"+ this.getCapMaxPeso());
         System.out.println("Capacidade maxima de volume:"+ this.getCapMaxVolume());
         System.out.println("Capacidade ocupada de peso:"+ this.getPesoOcupado());
-        System.out.println("Capacidade ocupada de volume:"+ this.getCapMaxVolume());
+        System.out.println("Capacidade ocupada de volume:"+ this.getVolumeOcupado());
         System.out.println("---------------------------------------------------------------");
 
     }

@@ -36,7 +36,6 @@ public class App {
             System.out.println("0-Sair");
 
             int opt = in.nextInt();
-
             switch (opt) {
 
                 case 1:
@@ -44,6 +43,7 @@ public class App {
                     break;
                 case 2:
                     deleteItem(prateleiras);
+       
                     break;
                 case 3:
                     updateItem(prateleiras);
@@ -73,7 +73,10 @@ public class App {
     public static void listarItens(ArrayList<Prateleira> prateleiras) {
 
         for (int i = 0; i < prateleiras.size(); i++) {
-            prateleiras.get(i).listItens();
+            if(prateleiras.get(i).getItens().size()!=0){
+                prateleiras.get(i).listItens();
+            }
+           
         }
 
     }
@@ -185,7 +188,7 @@ public class App {
                 item.setTipo(tipo);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-                in.close();
+                
                 return null;
             }
             // limpa o buffer
@@ -198,7 +201,7 @@ public class App {
             }
             else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-                in.close();
+                
                 return null;
             }
 
@@ -208,7 +211,7 @@ public class App {
                 item.setVolume(volume);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-                in.close();
+               
                 return null;
             }
 
@@ -218,7 +221,7 @@ public class App {
                 item.setQuantidade(quantidade);
             } else {
                 System.out.println("entrada invalida, tente novamente com uma entrada valida");
-                in.close();
+              
                 return null;
             }
 
@@ -231,7 +234,7 @@ public class App {
             System.out.println("digite a localização do produto:");
             item.setLocalizacao(in.nextLine());
 
-            in.close();
+            
             return item;
 
         } catch (InputMismatchException erro) {
@@ -256,6 +259,8 @@ public class App {
         System.out.println("não foram encontradas prateleiras disponiveis para depositar este item");
         return false;
     }
+
+  
 
     public static void addItem(ArrayList<Prateleira> prateleiras) {
 
@@ -316,11 +321,10 @@ public class App {
                 int indice = prateleiras.get(i).encontraItem(nome);
                 if (indice != -1) {
                     prateleiras.get(i).deleteItem(indice);
-                    in.close();
-
+                    System.out.println("Item deletado com sucesso");
                     return;
                 }
-                in.close();
+               
 
             }
 
@@ -348,13 +352,11 @@ public class App {
                 if (item != null) {
                     prateleiras.get(i).atualizaItem(indice, item);
                     System.out.println("item atualizado com sucesso");
-                    in.close();
 
                     return;
                 }
             }
         }
-        in.close();
 
         System.out.println("não foi encontrado nenhum item com este nome");
 
@@ -384,23 +386,24 @@ public class App {
                 prateleiras.get(i).listItens();
             }
         }
-        in.close();
+       
 
     }
 
     public static void consultaPrateleiraPorSetor(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
-
+        boolean encontrei=false;
         System.out.println("digite o setor da prateleira:");
         String filtroPrateleira = in.nextLine();
 
         for (int i = 0; i < prateleiras.size(); i++) {
             if (prateleiras.get(i).getSetor().equals(filtroPrateleira.trim())) {
                 prateleiras.get(i).imprimePrateleira();
+                encontrei=true;
             }
         }
-        in.close();
-
+       
+        if(!encontrei){System.out.println("não foi encontrada nenhuma prateleira com este setor");}
     }
 
 }
