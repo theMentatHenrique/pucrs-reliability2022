@@ -15,157 +15,162 @@ public class App {
     // o método main apresenta o menu de opções possiveis e redireciona conforme
     // escolha
     public static void main(String[] args) throws Exception {
-        
-        
-       
-        //é instanciado uma lista de prateleiras previamente, pois as mesmas não estão incluidas no processo de CRUD
-        ArrayList<Prateleira> prateleiras = new ArrayList<Prateleira>();
-        Prateleira prateleira = new Prateleira("1C", "Acougue", 100000f, 100000f);
-        prateleiras.add(prateleira);
-        prateleira = new Prateleira("1P", "Peixaria", 1000000000f, 1000000000f);
-        prateleiras.add(prateleira);
-        prateleira = new Prateleira("1B", "Consumiveis", 1000000f, 10000000f);
-        prateleiras.add(prateleira);
-        prateleira = new Prateleira("1I", "Freezers", 100000f, 100000f);
-        prateleiras.add(prateleira);
-        prateleira = new Prateleira("1S", "EMBALADOS", 100000f, 100000f);
-        prateleiras.add(prateleira);
-        prateleira = new Prateleira("1L", "Casa", 100000f, 100000f);
-        prateleiras.add(prateleira);
- 
-        boolean arquivo=readFile("Estoque.csv",prateleiras);
-        
 
-      
-        if(!arquivo){
+        // é instanciado uma lista de prateleiras previamente, pois as mesmas não estão
+        // incluidas no processo de CRUD
+        ArrayList<Prateleira> prateleiras = new ArrayList<Prateleira>();
+        Prateleira prateleira = new Prateleira("1C", "Acougue", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1P", "Peixaria", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1B", "Liquidos", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1I", "Freezers", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1S", "Nitrogenados", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1L", "Casa", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1E", "UltraProcessados", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1H", "HigienePessoal", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1F", "Pereciveis", 10000f, 10000f);
+        prateleiras.add(prateleira);
+        prateleira = new Prateleira("1O", "Diversos", 10000f, 10000f);
+        prateleiras.add(prateleira);
+
+        boolean arquivo = lerArquivo("Estoque.csv", prateleiras);
+
+        if (!arquivo) {
             System.out.println("Não foi possivel obter os dados do banco de dados");
 
-        }
-        else{
+        } else {
 
-        
-        
-        //abaixo esta o menu interativo e cada opcao leva a um método especifico
-        boolean continuar = true;
+            // abaixo esta o menu interativo e cada opcao leva a um método especifico
+            boolean continuar = true;
 
-        while (continuar) {
-            Scanner in = new Scanner(System.in);
+            while (continuar) {
+                Scanner in = new Scanner(System.in);
+                System.out.println("");
 
-            System.out.println("qual operacao deseja realizar:");
-            System.out.println("1-Adicionar item");
-            System.out.println("2-Excluir item");
-            System.out.println("3-Alterar item");
-            System.out.println("4-Consultar item");
-            System.out.println("5-Consultar item por setor");
-            System.out.println("6-Consultar item por prateleira");
-            System.out.println("7-Consultar prateleira por setor");
-            System.out.println("0-Sair");
+                System.out.println("Qual operacao deseja realizar:");
+                System.out.println("1-Adicionar item");
+                System.out.println("2-Excluir item");
+                System.out.println("3-Alterar item");
+                System.out.println("4-Consultar itens");
+                System.out.println("5-Consultar item por setor");
+                System.out.println("6-Consultar item por prateleira");
+                System.out.println("7-Consultar prateleira por setor");
+                System.out.println("0-Sair");
 
-            int opt = in.nextInt();
-            switch (opt) {
+                int opt = in.nextInt();
+                switch (opt) {
+                    case 1:
+                        addItem(prateleiras, false);
+                        break;
+                    case 2:
+                        deleteItem(prateleiras);
 
-                case 1:
-                    addItem(prateleiras, false);
-                    break;
-                case 2:
-                    deleteItem(prateleiras);
-
-                    break;
-                case 3:
-                    updateItem(prateleiras);
-                    break;
-                case 4:
-                    listarItens(prateleiras);
-                    break;
-                case 5:
-                    consultaItemPorSetor(prateleiras);
-                    break;
-                case 6:
-                    consultaPorPrateleira(prateleiras);
-                    break;
-                case 7:
-                    consultaPrateleiraPorSetor(prateleiras);
-                    break;
-                case 0:
-                    gravaArquivo(prateleiras);
+                        break;
+                    case 3:
+                        updateItem(prateleiras);
+                        break;
+                    case 4:
+                        listarItens(prateleiras);
+                        break;
+                    case 5:
+                        consultaItemPorSetor(prateleiras);
+                        break;
+                    case 6:
+                        consultaPorPrateleira(prateleiras);
+                        break;
+                    case 7:
+                        consultaPrateleiraPorSetor(prateleiras);
+                        break;
+                    case 0:
+                    if(!gravarArquivo(prateleiras))System.out.println("não foi possivel salvar os dados no arquivo");
                     continuar = false;
-                    break;
-                default:
-                    gravaArquivo(prateleiras);
-                    System.out.println("opcao invalida");
+                        break;
+                    default:
+                        if(!gravarArquivo(prateleiras))System.out.println("não foi possivel salvar os dados no arquivo");
+                        System.out.println("opcao invalida");
+                }
             }
         }
-
     }
-    
-}
+    //retorna Enum Tipo equivalente a String informada 
+    public static Tipo convertToEnumTipo(String opcao) {
 
-    public static Tipo convertToTipo(String opcao){
-
-        switch(opcao){
-            case "CARNES":return Tipo.CARNES;
-            case "HIGIENE":return Tipo.HIGIENE;
-            case "LIMPEZA":return Tipo.LIMPEZA;
-            case "SALGADINHOS":return Tipo.SALGADINHOS;
-            case "CONGELADOS":return Tipo.CONGELADOS;
-            case "FRIOS":return Tipo.FRIOS;
-            case "ENLATADOS":return Tipo.ENLATADOS;
-            case "BEBIDAS":return Tipo.BEBIDAS;
-            case "PEIXES":return Tipo.PEIXES;
-            case "OUTROS":return Tipo.OUTROS;
-
-
+        switch (opcao) {
+            case "CARNES":
+                return Tipo.CARNES;
+            case "HIGIENE":
+                return Tipo.HIGIENE;
+            case "LIMPEZA":
+                return Tipo.LIMPEZA;
+            case "SALGADINHOS":
+                return Tipo.SALGADINHOS;
+            case "CONGELADOS":
+                return Tipo.CONGELADOS;
+            case "FRIOS":
+                return Tipo.FRIOS;
+            case "ENLATADOS":
+                return Tipo.ENLATADOS;
+            case "BEBIDAS":
+                return Tipo.BEBIDAS;
+            case "PEIXES":
+                return Tipo.PEIXES;
+            case "OUTROS":
+                return Tipo.OUTROS;
         }
-
         return null;
     }
 
-    public static boolean readFile(String fileName,ArrayList<Prateleira> prateleiras) {
+    public static boolean lerArquivo(String fileName, ArrayList<Prateleira> prateleiras) {
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Estoque.csv"), "UTF-8"))) {
-          
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream("Estoque.csv"), "UTF-8"))) {
+
             String line = br.readLine();
 
-            
             while (line != null) {
                 line = br.readLine();
 
                 if (line != null) {
-                   
-                   String teste[] =line.split(";");
-                  Item item=new Item(teste[0], convertToTipo(teste[1]), Float.parseFloat(teste[2]), Float.parseFloat(teste[3]),Integer.parseInt(teste[4]) , teste[5], teste[6]);
-                  escolhePrateleira(item,prateleiras);
+                    String campo[] = line.split(";");
+                    Item item = new Item(campo[0], convertToEnumTipo(campo[1]), Float.parseFloat(campo[2]),
+                            Float.parseFloat(campo[3]), Integer.parseInt(campo[4]), campo[5], campo[6]);
+                    escolhePrateleira(item, prateleiras);
                 }
 
             }
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo");
             return false;
-
         }
     }
-
-    //percorre todos os elementos do arrayList prateleiras e imprime todos os itens presente nestes objetos
+    // percorre todos os elementos do arrayList prateleiras e imprime todos os itens
+    // presente nestes objetos
     public static void listarItens(ArrayList<Prateleira> prateleiras) {
 
-        //este laço percorre cada objeto de prateleiras
+        // este laço percorre cada objeto de prateleiras
         for (int i = 0; i < prateleiras.size(); i++) {
-            if (prateleiras.get(i).getItens().size() != 0) {
 
-                //listItens imprime todos os itens contidos neste objeto de prateleiras
+            if (prateleiras.get(i).getItens().size() != 0) {
+                // listItens imprime todos os itens contidos neste objeto de prateleiras
                 prateleiras.get(i).listItens();
             }
-
         }
-
     }
 
+    // popula o arquivo csv com todos os itens contidos em todas as prateleiras
+    // os campos são as propriedades da classe item
+    public static boolean gravarArquivo(ArrayList<Prateleira> prateleiras) {
+        try (PrintWriter writer = new PrintWriter(new File("Estoque.csv"))) {
 
-    public static boolean gravaArquivo(ArrayList<Prateleira> prateleiras){
-        try (PrintWriter writer = new PrintWriter(new File("test.csv"))) {
-
+            // define a primeira linha do arquivo com o nome das propriedades
             StringBuilder sb = new StringBuilder();
             sb.append("Nome");
             sb.append(';');
@@ -182,45 +187,40 @@ public class App {
             sb.append("Localizacao");
             sb.append('\n');
 
-            for(int i=0;i<prateleiras.size();i++){
-                ArrayList<Item> itens=prateleiras.get(i).getItens();
-            for(int j=0;j<itens.size();j++){
+            for (int i = 0; i < prateleiras.size(); i++) {
+                ArrayList<Item> itens = prateleiras.get(i).getItens();
+                for (int j = 0; j < itens.size(); j++) {
 
-                sb.append(itens.get(j).getNome());
-            sb.append(';');
-            sb.append(itens.get(j).getTipo());
-            sb.append(';');
-            sb.append(new BigDecimal(itens.get(j).getPeso()).toPlainString());
-            sb.append(';');
-            sb.append(new BigDecimal(itens.get(j).getVolume()).toPlainString());
-            sb.append(';');
-            sb.append(itens.get(j).getQuantidade());
-            sb.append(';');
-            sb.append(itens.get(j).getSetor());
-            sb.append(';');
-            sb.append(itens.get(j).getLocalizacao());
-            sb.append('\n');
+                    sb.append(itens.get(j).getNome());
+                    sb.append(';');
+                    sb.append(itens.get(j).getTipo());
+                    sb.append(';');
+                    sb.append(new BigDecimal(itens.get(j).getPeso()).toPlainString());
+                    sb.append(';');
+                    sb.append(new BigDecimal(itens.get(j).getVolume()).toPlainString());
+                    sb.append(';');
+                    sb.append(itens.get(j).getQuantidade());
+                    sb.append(';');
+                    sb.append(itens.get(j).getSetor());
+                    sb.append(';');
+                    sb.append(itens.get(j).getLocalizacao());
+                    sb.append('\n');
+                }
             }
-            }
-
             writer.write(sb.toString());
             writer.close();
-           
-
-            return true;
-
+            return true;     
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return false;
         }
-       
     }
 
-    
-
-    // este método capta os valores do teclado e os atribui aos campos da classe Item com os devidos controles
+    // este método capta os valores do teclado e os atribui aos campos da classe
+    // Item com os devidos controles
     public static Item PopulaCampos() {
         try {
+            String erro = "A entrada nao corresponde com os limites possiveis de valores para o campo selecionado";
             Item item = new Item();
             Scanner in = new Scanner(System.in);
 
@@ -239,52 +239,48 @@ public class App {
             System.out.println("9-PEIXES");
             System.out.println("10-OUTROS");
 
-            //este if controla se o tipo se encaixa nas opções possiveis(1-9)
-            //caso a entrada seja invalida apresenta mesma mensagem do catch
+            // este if controla se o tipo se encaixa nas opções possiveis(1-9)
+            // caso a entrada seja invalida apresenta mesma mensagem do catch
             int tipo = in.nextInt();
             if (tipo > 0 && tipo < 11) {
                 item.setTipo(tipo);
             } else {
-                System.out.println("entrada invalida, tente novamente com uma entrada valida");
-
+                System.out.println(erro);
                 return null;
             }
             // limpa o buffer
             in.nextLine();
 
-            
             System.out.println("digite o peso do produto em KG e use vírgula para separar as casas decimais:");
-            float peso =in.nextFloat();
+            float peso = in.nextFloat();
 
-          
+            //o item deve conter peso
             if (peso > 0.0) {
                 item.setPeso(peso);
             } else {
-                System.out.println("entrada invalidasa, tente novamente com uma entrada valida");
-
+                System.out.println(erro);
                 return null;
             }
 
             System.out.println("digite o volume do produto em M3 e use vírgula para separar as casas decimais:");
             float volume = in.nextFloat();
-
+            
+            //o item deve conter volume
             if (volume > 0) {
                 item.setVolume(volume);
             } else {
-                System.out.println("entrada invalida, tente novamente com uma entrada valida");
-
-                //retorna nulo caso haja algum problema
+                System.out.println(erro);
                 return null;
             }
 
-            //a quantidade de um item deve ser maior que zero 
+            // a quantidade de um item deve ser maior que zero
             System.out.println("digite a quantidade do produto:");
             int quantidade = in.nextInt();
             if (quantidade > 0) {
                 item.setQuantidade(quantidade);
-            } else {
-                System.out.println("entrada invalida, tente novamente com uma entrada valida");
-
+            } 
+            else {
+                System.out.println(erro);
                 return null;
             }
 
@@ -301,15 +297,13 @@ public class App {
 
         } catch (InputMismatchException erro) {
             System.out.println("entrada inválida, tente novamente com outro tipo de entrada");
-
             return null;
         }
-
     }
 
-    //procura a prateleira especifica para o tipo de produto especificado e então adiciona este item a esta
-    //prateleira
-
+    // procura a prateleira especifica para o tipo de produto especificado e então
+    // adiciona este item a esta
+    // prateleira
     public static boolean adicionaNaPrateleira(String letra, ArrayList<Prateleira> prateleiras, Item item) {
 
         for (int i = 0; i < prateleiras.size(); i++) {
@@ -319,16 +313,14 @@ public class App {
                 if (adicionou) {
                     return true;
                 }
-               
-               
             }
         }
-        System.out.println("não foram encontradas prateleiras disponiveis para depositar este item:"+item.getNome());
+        System.out.println("não foram encontradas prateleiras disponiveis para depositar este item:");
         return false;
     }
 
-    public static boolean escolhePrateleira(Item item,ArrayList<Prateleira> prateleiras){
-        boolean terminou=false;
+    public static boolean escolhePrateleira(Item item, ArrayList<Prateleira> prateleiras) {
+        boolean terminou = false;
 
         switch (item.getTipo()) {
 
@@ -363,41 +355,42 @@ public class App {
                 terminou = adicionaNaPrateleira("O", prateleiras, item);
                 break;
         }
-
         return terminou;
-
     }
 
-    //adiciona um novo item ao estoque com base nos dados fornecidos pelo usuario e coloca este item em 
-    //uma prateleira especifica
+    // adiciona um novo item ao estoque com base nos dados fornecidos pelo usuario e
+    // coloca este item em
+    // uma prateleira especifica
     public static boolean addItem(ArrayList<Prateleira> prateleiras, boolean ehEdicao) {
 
-        //popula um Item com os dados fornecidos pelo usuario 
+        // popula um Item com os dados fornecidos pelo usuario
         Item item = PopulaCampos();
         boolean terminou = false;
 
-        //se for diferente de nulo, então não houve erro em captar os valores do usuario e pode seguir para 
-        //adicionar
+        // se for diferente de nulo, então não houve erro em captar os valores do
+        // usuario e pode seguir para
+        // adicionar
         if (item != null) {
 
-           terminou=escolhePrateleira(item,prateleiras);
+            terminou = escolhePrateleira(item, prateleiras);
 
-            //se o item foi alocado devidamente em alguma prateleira e não é uma edição, apresenta mensagem de sucesso
+            // se o item foi alocado devidamente em alguma prateleira e não é uma edição,
+            // apresenta mensagem de sucesso
 
             if (terminou && !ehEdicao) {
                 System.out.println("item adicionado com sucesso");
                 return true;
             }
-            if(terminou){return true;}
-
+            if (terminou) {
+                return true;
+            }
         }
-
-        //nos demais casos retorna falso
+        // nos demais casos retorna falso
         return false;
     }
 
-    //apaga um item atraves do nome do mesmo,buscando pelas prateleiras este item e removendo da mesma caso encontrar
-
+    // apaga um item atraves do nome do mesmo,buscando pelas prateleiras este item e
+    // removendo da mesma caso encontrar
     public static boolean deleteItem(ArrayList<Prateleira> prateleiras) {
 
         try {
@@ -407,20 +400,21 @@ public class App {
             String nome = in.nextLine();
 
             for (int i = 0; i < prateleiras.size(); i++) {
-                
-                //indice guarda qual posição do item presente no vetor de itens de prateleiras
-                //caso não encontre,retorna -1
+
+                // indice guarda qual posição do item presente no vetor de itens de prateleiras
+                // caso não encontre,retorna -1
                 int indice = prateleiras.get(i).encontraItem(nome);
 
-                //se retornou um indice diferente de -1, então o item a ser excluido esta nesta prateleira e deve ser excluido
+                // se retornou um indice diferente de -1, então o item a ser excluido esta nesta
+                // prateleira e deve ser excluido
                 if (indice != -1) {
                     prateleiras.get(i).deleteItem(indice);
                     System.out.println("Item deletado com sucesso");
-                    return true ;
+                    return true;
                 }
-
             }
-            //caso termine o laço,quer dizer que todas as prateleiras foram vistas e não foi encontrado o item
+            // caso termine o laço,quer dizer que todas as prateleiras foram vistas e não
+            // foi encontrado o item
             System.out.println("não foi encontrado nenhum item com este nome");
             return false;
 
@@ -429,9 +423,12 @@ public class App {
             return false;
         }
     }
-    //a função de atualizar primeiro encontra o item a ser alterado entre as prateleiras
-    //em seguida trata como se fosse adicionar um novo elemento, pois ao alterar o tipo pode-se mudar a prateleira
-    //e apaga o item da antiga prateleira
+
+    // a função de atualizar primeiro encontra o item a ser alterado entre as
+    // prateleiras
+    // em seguida trata como se fosse adicionar um novo elemento, pois ao alterar o
+    // tipo pode-se mudar a prateleira
+    // e apaga o item da antiga prateleira
     public static boolean updateItem(ArrayList<Prateleira> prateleiras) {
 
         Scanner in = new Scanner(System.in);
@@ -440,73 +437,75 @@ public class App {
         String nome = in.nextLine();
         for (int i = 0; i < prateleiras.size(); i++) {
 
-            //se for diferente de -1, encontrou o item entre as prateleiras
+            // se for diferente de -1, encontrou o item entre as prateleiras
             int indice = prateleiras.get(i).encontraItem(nome);
             if (indice != -1) {
-                
+
                 System.out.println("item Selecionado:" + prateleiras.get(i).getItens().get(indice).getNome());
                 System.out.println("digite abaixo os campos com os valores atualizados");
 
-                //primeiro adiciona um novo item
+                // primeiro adiciona um novo item
                 boolean adicionou = addItem(prateleiras, true);
 
-                //se não houve nenhum erro durante a inclusão, apaga o item desatualizado da prateleira que estava
-                //e imprime mensagem de sucesso
-                //caso haja erro no processo de adicionar, imprime mensagem e retorna falso
+                // se não houve nenhum erro durante a inclusão, apaga o item desatualizado da
+                // prateleira que estava
+                // e imprime mensagem de sucesso
+                // caso haja erro no processo de adicionar, imprime mensagem e retorna falso
                 if (adicionou) {
                     prateleiras.get(i).deleteItem(indice);
                     System.out.println("item alterado com sucesso");
                     return true;
-                }
-                else{
+                } else {
                     System.out.println("não foi possivel atualizar o item");
                     return false;
                 }
-
-                            
             }
         }
-
         System.out.println("não foi encontrado nenhum item com este nome");
         return false;
 
     }
-    //procura em todas prateleiras, todos os itens dentro das mesmas e cada item que tiver setor igual o informado, 
-    //imprime o mesmo na tela
-
+    // procura em todas prateleiras, todos os itens dentro das mesmas e cada item
+    // que tiver setor igual o informado,
+    // imprime o mesmo na tela
     public static void consultaItemPorSetor(ArrayList<Prateleira> prateleiras) {
-        int cont=0;
+        int cont = 0;
         Scanner in = new Scanner(System.in);
 
         System.out.println("digite o nome do setor do produto:");
         String filtroSetor = in.nextLine();
 
         for (int i = 0; i < prateleiras.size(); i++) {
-            if(prateleiras.get(i).consultaItemPorSetor(filtroSetor)){cont++;};
+            if (prateleiras.get(i).consultaItemPorSetor(filtroSetor)) {
+                cont++;
+            }
+            ;
         }
-        
-        if(cont==0){System.out.println("Não foi encontrado nenhum item com este setor informado");}
+        if (cont == 0) {
+            System.out.println("Não foi encontrado nenhum item com este setor informado");
+        }
     }
 
-    //lista todos os itens presentes na prateleira especificada como entrada pelo seu nome
+    // lista todos os itens presentes na prateleira especificada como entrada pelo
+    // seu nome
     public static void consultaPorPrateleira(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
-        Boolean controle=false;
+        Boolean controle = false;
         System.out.println("digite o nome da prateleira:");
         String filtroPrateleira = in.nextLine();
 
         for (int i = 0; i < prateleiras.size(); i++) {
             if (prateleiras.get(i).getNomePrateleira().equals(filtroPrateleira.trim())) {
                 prateleiras.get(i).listItens();
-                controle=true;
+                controle = true;
             }
         }
-        if(!controle){System.out.println("Não foi encontrada nenhuma prateleira com este nome");}
-
+        if (!controle) {
+            System.out.println("Não foi encontrada nenhuma prateleira com este nome");
+        }
     }
 
-    //lista todas as prateleiras presentes no setor especificado
-
+    // lista todas as prateleiras presentes no setor especificado
     public static void consultaPrateleiraPorSetor(ArrayList<Prateleira> prateleiras) {
         Scanner in = new Scanner(System.in);
         boolean encontrei = false;
@@ -519,11 +518,10 @@ public class App {
                 encontrei = true;
             }
         }
-
-        //se não encontrou nenhuma prateleira com o setor informado, retorna mensagem de erro
+        // se não encontrou nenhuma prateleira com o setor informado, retorna mensagem
+        // de erro
         if (!encontrei) {
             System.out.println("não foi encontrada nenhuma prateleira com este setor");
         }
     }
-
 }

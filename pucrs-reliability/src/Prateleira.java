@@ -69,20 +69,6 @@ public class Prateleira {
     public void setCapMaxPeso(float capMaxPeso) {
         this.capMaxPeso = capMaxPeso;
     }
-
-    //imprime em tela as propriedades da classe
-    public void imprimePrateleira() {
-        System.out.println("Nome da prateleira:"+this.getNomePrateleira());
-        System.out.println("Setor:"+this.getSetor());
-        System.out.println("Quantidade de itens:"+ this.getItens().size());
-        System.out.println("Capacidade maxima de peso:"+ this.getCapMaxPeso()+"KG");
-        System.out.println("Capacidade maxima de volume:"+ this.getCapMaxVolume()+"M3");
-        System.out.println("Capacidade ocupada de peso:"+ this.getPesoOcupado()+"KG");
-        System.out.println("Capacidade ocupada de volume:"+ this.getVolumeOcupado()+"M3");
-        System.out.println("---------------------------------------------------------------");
-
-    }
-
     //adiciona um novo item no vetor e incrementa com os novos valores de peso/volume ocupados
     public boolean addItem(Item item){
 
@@ -104,22 +90,15 @@ public class Prateleira {
         decrementVolumeOcupado(itens.get(indice).getVolume()*itens.get(indice).getQuantidade());
         itens.remove(indice);
     }
-
-   
-
     public void setCapMaxVolume(float capMaxVolume) {
         this.capMaxVolume = capMaxVolume;
     }
-
-   
-
    public void setNomePrateleira(String nomePrateleira) {
        this.nomePrateleira = nomePrateleira;
    }
    public void incrementPesoOcupado(float peso) {
        this.pesoOcupado += peso;
    }
-
     public void setSetor(String setor) {
         this.setor = setor;
     }
@@ -135,6 +114,17 @@ public class Prateleira {
 
     //métodos auxiliares
 
+     //imprime em tela as propriedades da classe
+     public void imprimePrateleira() {
+        System.out.println("Nome da prateleira:"+this.getNomePrateleira());
+        System.out.println("Setor:"+this.getSetor());
+        System.out.println("Quantidade de itens:"+ this.getItens().size());
+        System.out.println("Capacidade maxima de peso:"+ this.getCapMaxPeso()+"KG");
+        System.out.println("Capacidade maxima de volume:"+ this.getCapMaxVolume()+"M3");
+        System.out.println("Capacidade ocupada de peso:"+ this.getPesoOcupado()+"KG");
+        System.out.println("Capacidade ocupada de volume:"+ this.getVolumeOcupado()+"M3");
+        System.out.println("---------------------------------------------------------------");
+    }
     //encontra o item especifico pelo nome,e caso haja correspondencia retorna o indice deste objeto
     //no vetor da classe
     public int encontraItem(String nome){
@@ -151,12 +141,10 @@ public class Prateleira {
         for (int i = 0; i < itens.size(); i++) {
             if (itens.get(i).getSetor().equals(setor.trim())) {
                 encontrei=true;
-                itens.get(i).imprimeItem();
-               
+                itens.get(i).imprimeItem();              
             }
         }
-        return encontrei;
-     
+        return encontrei;   
     }
     
     //imprime em tela todos os itens presentes no vetor
