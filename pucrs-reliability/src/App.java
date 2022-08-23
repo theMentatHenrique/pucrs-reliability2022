@@ -14,6 +14,7 @@ public class App {
 
     // o método main apresenta o menu de opções possiveis e redireciona conforme
     // escolha
+    
     public static void main(String[] args) throws Exception {
 
         // é instanciado uma lista de prateleiras previamente, pois as mesmas não estão
