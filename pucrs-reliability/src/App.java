@@ -129,17 +129,22 @@ public class App {
         }
         return null;
     }
-
+    //le o arquivo linha por linha e retorna verdadeiro se percorreu todo arquivo e falso caso não
     public static boolean lerArquivo(String fileName, ArrayList<Prateleira> prateleiras) {
 
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(new FileInputStream("Estoque.csv"), "UTF-8"))) {
 
+            //a primeira linha é i cabeçalho
             String line = br.readLine();
 
             while (line != null) {
+
+                //lê a proxima linha
                 line = br.readLine();
 
+                //se a linha for diferente de null
+                //salva os campos em um objeto do tipo item e distribui na devida prateleira
                 if (line != null) {
                     String campo[] = line.split(";");
                     Item item = new Item(campo[0], convertToEnumTipo(campo[1]), Float.parseFloat(campo[2]),
@@ -213,6 +218,7 @@ public class App {
             writer.write(sb.toString());
             writer.close();
             return true;     
+
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return false;
@@ -322,6 +328,8 @@ public class App {
         return false;
     }
 
+    //envia para a prateleira a qual deve ser adicionado o item
+    //retorna verdadeiro ou falso a partir do retorno de adicionaNaPrateleira
     public static boolean escolhePrateleira(Item item, ArrayList<Prateleira> prateleiras) {
         boolean terminou = false;
 
