@@ -317,14 +317,20 @@ public class App {
 
         for (int i = 0; i < prateleiras.size(); i++) {
 
+            //se a prateleira contem a letra especificada em letra,tenta adicionar
             if (prateleiras.get(i).getNomePrateleira().contains(letra.trim())) {
                 boolean adicionou = prateleiras.get(i).addItem(item);
                 if (adicionou) {
+                    //se conseguiu adicionar,retorna true
                     return true;
                 }
+
+                //enquanto não encontrar,continua procurando até o fim do laço
             }
         }
-        System.out.println("não foram encontradas prateleiras disponiveis para depositar este item:");
+        //ao terminar o laço e se ainda não foi adicionado, então não ha
+        //prateleiras a adicionar o item
+        System.out.println("não foram encontradas prateleiras disponiveis para depositar este item");
         return false;
     }
 
